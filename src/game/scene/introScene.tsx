@@ -12,6 +12,7 @@ const IntroScene: React.FC = () => {
 	const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
 	const controlsRef = useRef<OrbitControls | null>(null);
 	const frameIdRef = useRef<number>(0);
+	const chandelierLightRef = useRef<THREE.SpotLight | null>(null);
 
 	useEffect(() => {
 		if (!mountRef.current) return;
@@ -24,17 +25,17 @@ const IntroScene: React.FC = () => {
 			scene.background = new THREE.Color("rgba(0,255,72,0.66)");
 			sceneRef.current = scene;
 
-			// Camera - 시야각과 위치 조정
+			// Camera
 			const camera = new THREE.PerspectiveCamera(
 				90,
 				mountRef.current.clientWidth / mountRef.current.clientHeight,
 				1,
 				1000
 			);
-			camera.position.set(0.9, 0.5, 1.25); // 카메라 위치 조정
+			camera.position.set(0.9, 0.5, 1.25);
 			cameraRef.current = camera;
 
-			// Renderer
+			// Renderer with improved settings
 			const renderer = new THREE.WebGLRenderer({
 				antialias: true,
 				alpha: true
@@ -42,7 +43,8 @@ const IntroScene: React.FC = () => {
 			renderer.setSize(mountRef.current.clientWidth, mountRef.current.clientHeight);
 			renderer.setPixelRatio(window.devicePixelRatio);
 			renderer.outputColorSpace = THREE.SRGBColorSpace;
-			renderer.shadowMap.enabled = true; // 그림자 활성화
+			renderer.shadowMap.enabled = true;
+			renderer.shadowMap.type = THREE.PCFSoftShadowMap; // 부드러운 그림자
 			mountRef.current.appendChild(renderer.domElement);
 			rendererRef.current = renderer;
 
@@ -54,26 +56,70 @@ const IntroScene: React.FC = () => {
 			controlsRef.current = controls;
 
 			// Lights
-			// 주변광
 			const ambientLight = new THREE.AmbientLight(0xffffff, 2.7);
 			scene.add(ambientLight);
 
-			// 주 조명
 			const mainLight = new THREE.DirectionalLight(0xffffff, 1);
 			mainLight.position.set(10, 10, 10);
 			mainLight.castShadow = true;
 			scene.add(mainLight);
 
-			// const
-			const chandelierLight = new THREE.SpotLight("#1800ff", 1, 10);
+			// Enhanced chandelier light
+			const chandelierLight = new THREE.SpotLight(
+				"#1800ff", // 색상
+				2, // 강도
+				10, // 거리
+				Math.PI / 4, // 각도
+				0.5, // 페널티
+				1 // 감쇠
+			);
+			chandelierLight.position.set(0, 2, 0); // 천장에서 아래로
+			chandelierLight.castShadow = true;
+			chandelierLight.shadow.mapSize.width = 1024;
+			chandelierLight.shadow.mapSize.height = 1024;
+			chandelierLight.shadow.camera.near = 0.1;
+			chandelierLight.shadow.camera.far = 10;
 			scene.add(chandelierLight);
+			chandelierLightRef.current = chandelierLight;
 
-			// 보조 조명
+			// 빛 시각화를 위한 요소들
+			// SpotLight Helper
+			const spotLightHelper = new THREE.SpotLightHelper(chandelierLight);
+			scene.add(spotLightHelper);
+
+			// 빛 원뿔 시각화
+			const geometry = new THREE.ConeGeometry(
+				Math.tan(Math.PI / 4) * 10, // 밑면 반지름
+				10, // 높이
+				32 // 분할 수
+			);
+			const material = new THREE.MeshBasicMaterial({
+				color: "#1800ff",
+				transparent: true,
+				opacity: 0.1,
+				side: THREE.DoubleSide
+			});
+			const lightCone = new THREE.Mesh(geometry, material);
+			lightCone.position.copy(chandelierLight.position);
+			lightCone.rotation.x = Math.PI; // 원뿔을 뒤집어서 빛이 아래로 향하게 함
+			scene.add(lightCone);
+
+			// 빛줄기 효과
+			const beamGeometry = new THREE.CylinderGeometry(0.05, 0.05, 10, 8);
+			const beamMaterial = new THREE.MeshBasicMaterial({
+				color: "#1800ff",
+				transparent: true,
+				opacity: 0.3
+			});
+			const lightBeam = new THREE.Mesh(beamGeometry, beamMaterial);
+			lightBeam.position.copy(chandelierLight.position);
+			lightBeam.position.y -= 5; // 빛줄기를 아래로 이동
+			scene.add(lightBeam);
+
 			const fillLight = new THREE.DirectionalLight("#412c2c", .5);
 			fillLight.position.set(-10, 5, -10);
 			scene.add(fillLight);
 
-			// 바닥 helper (디버깅용)
 			const gridHelper = new THREE.GridHelper(10, 10);
 			scene.add(gridHelper);
 		};
@@ -88,7 +134,6 @@ const IntroScene: React.FC = () => {
 
 					const model = gltf.scene;
 
-					// 그림자 설정
 					model.traverse((node) => {
 						if (node instanceof THREE.Mesh) {
 							node.castShadow = true;
@@ -96,17 +141,14 @@ const IntroScene: React.FC = () => {
 						}
 					});
 
-					// 모델 위치 및 스케일 조정
 					const box = new THREE.Box3().setFromObject(model);
 					const center = box.getCenter(new THREE.Vector3());
 					const size = box.getSize(new THREE.Vector3());
 
-					// 모델 크기에 따라 스케일 조정
 					const maxDim = Math.max(size.x, size.y, size.z);
-					const scale = 3 / maxDim; // 스케일 값 증가
+					const scale = 3 / maxDim;
 					model.scale.multiplyScalar(scale);
 
-					// 모델을 장면의 중앙에 위치시키기
 					model.position.x = -center.x * scale;
 					model.position.y = -center.y * scale;
 					model.position.z = -center.z * scale;
@@ -124,6 +166,15 @@ const IntroScene: React.FC = () => {
 			);
 		};
 
+		// 빛 애니메이션
+		const animateLights = (): void => {
+			if (chandelierLightRef.current) {
+				// 빛의 강도를 시간에 따라 미세하게 변화
+				const time = Date.now() * 0.001;
+				chandelierLightRef.current.intensity = 2 + Math.sin(time * 2) * 0.2;
+			}
+		};
+
 		const animate = (): void => {
 			frameIdRef.current = requestAnimationFrame(animate);
 
@@ -135,6 +186,7 @@ const IntroScene: React.FC = () => {
 			)
 				return;
 
+			animateLights();
 			controlsRef.current.update();
 			rendererRef.current.render(sceneRef.current, cameraRef.current);
 		};
@@ -154,14 +206,12 @@ const IntroScene: React.FC = () => {
 			rendererRef.current.setSize(width, height);
 		};
 
-		// Initialize
 		initThreeJs();
 		loadModel();
 		animate();
 
 		window.addEventListener('resize', handleResize);
 
-		// Cleanup
 		return () => {
 			window.removeEventListener('resize', handleResize);
 			cancelAnimationFrame(frameIdRef.current);
