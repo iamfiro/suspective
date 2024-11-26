@@ -23,5 +23,13 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"]
+  "include": ["src"],
+  "paths": {
+    "@style/*": ["src/styles/*"],
+    "@scene/*": ["src/game/scene/*"],
+    "@model/*": ["src/game/model/*"],
+    "@texture/*": ["src/game/texture/*"],
+    "@engine/*": ["src/engine/*"],
+    "@image/*": ["public/images/*"],
+  }
 }
