@@ -1,10 +1,10 @@
-import { useState } from 'react'
+import IntroScene from "./game/scene/introScene.tsx";
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
+      <IntroScene />
     </>
   )
 }
