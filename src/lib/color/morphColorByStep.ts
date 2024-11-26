@@ -1,9 +1,6 @@
+import {ColorRGB} from "./type";
+
 type ColorStartEnd = {start: string, end: string}
-type ColorRGB = {
-    r: number
-    g: number
-    b: number
-}
 
 export function morphColorByStep(startColor: string, endColor: string, step: number) {
     // Hex 컬러의 # 부분을 지우기 위해
