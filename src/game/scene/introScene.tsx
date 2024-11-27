@@ -42,17 +42,14 @@ const IntroScene: React.FC = () => {
 				0.01,
 				1000
 			);
-			camera.position.set(-0.33252059617329155, -0.21346472699763547, -0.32073297082428937);
-			camera.rotation.set(-1.5845833337978785, 0.0004704648408449537, 3.1074842667528846);
-			camera.rotation.x = -1.5845833337978785;
-			camera.rotation.y = 0.0004704648408449537;
-			camera.rotation.z = 3.1074842667528846;
 
-			// 위치 설정
-			camera.position.set(-0.33252059617329155, -0.21346472699763547, -0.32073297082428937);
+			// 위치 설정 - 딱 클립보드 ㅋㅋ
+			// camera.position.set(-0.33252059617329155, -0.224, -0.345);
 
-// controls 설정 전에 카메라가 바라볼 지점 계산
-// 현재 rotation 값을 기반으로 바라볼 지점 계산
+			camera.position.set(0.8, 0.7, 0.9);
+
+			// controls 설정 전에 카메라가 바라볼 지점 계산
+			// 현재 rotation 값을 기반으로 바라볼 지점 계산
 			const distance = 1; // 적절한 거리 설정
 			const euler = new THREE.Euler(
 				-1.5845833337978785,
@@ -65,8 +62,8 @@ const IntroScene: React.FC = () => {
 			const targetPosition = new THREE.Vector3();
 			targetPosition.copy(camera.position).add(direction);
 
-// 카메라가 해당 지점을 바라보도록 설정
-			camera.lookAt(targetPosition);
+			// 카메라가 해당 지점을 바라보도록 설정
+			camera.rotation.set(Math.PI / 2, 0, 0);
 
 			cameraRef.current = camera;
 
@@ -146,7 +143,7 @@ const IntroScene: React.FC = () => {
 			// Bloom Setup
 			const bloomPass = new UnrealBloomPass(
 				new THREE.Vector2(window.innerWidth, window.innerHeight),
-				0.1,
+				0,
 				0.4,
 				0.85
 			);
@@ -158,8 +155,12 @@ const IntroScene: React.FC = () => {
 			const controls = new OrbitControls(camera, renderer.domElement);
 			controls.enableDamping = true;
 			controls.dampingFactor = 0.05;
-			controls.target.set(0, 0, 0);
+			// 딱 클립보드 ㅋㅋ
+			// controls.target.set(0, -100, 10);
+			controls.target.set(0, 0, 0)
 			controlsRef.current = controls;
+
+			camera.lookAt(controls.target)
 		};
 
 		const loadModel = (): void => {
