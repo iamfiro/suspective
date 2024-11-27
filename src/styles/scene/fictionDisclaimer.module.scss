@@ -1,0 +1,53 @@
+.container {
+    width: 100%;
+    height: 100vh;
+
+    background-color: black;
+
+    padding: 80px;
+
+    color: white;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.content {
+    font-size: 24px;
+    font-family: 'BookkMyungjo-Bd';
+    line-height: 40px;
+
+    color: #d5d5d5;
+
+    opacity: 0;
+}
+
+.nextKey {
+    position: absolute;
+
+    bottom: 60px;
+    right: 60px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nextKeyText {
+    font-size: 18px;
+    font-weight: 600;
+
+    color: #d5d5d5;
+}
+
+.key {
+    padding: 5px 10px;
+
+    border-radius: 7px;
+    border: 2px solid #d5d5d5;
+
+    box-shadow: 0 1.5px 0px #d5d5d5;
+
+    font-size: 12px;
+}
