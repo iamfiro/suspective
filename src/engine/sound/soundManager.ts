@@ -4,12 +4,14 @@ class SoundManager {
     private musicVolume: number;
     private sfxVolume: number;
     private currentBGM: HTMLAudioElement | null;
+    private fadeInterval: number | null;
 
     private constructor() {
         this.sounds = new Map();
         this.musicVolume = 1.0;
         this.sfxVolume = 1.0;
         this.currentBGM = null;
+        this.fadeInterval = null;
     }
 
     public static getInstance(): SoundManager {
@@ -59,6 +61,34 @@ class SoundManager {
             this.currentBGM.pause();
             this.currentBGM.currentTime = 0;
         }
+    }
+
+    public fadeStop(duration: number = 1000): void {
+        if (!this.currentBGM) return;
+
+        if (this.fadeInterval) {
+            clearInterval(this.fadeInterval);
+        }
+
+        const originalVolume = this.currentBGM.volume;
+        const steps = 20;
+        const stepDuration = duration / steps;
+        const volumeStep = originalVolume / steps;
+        let currentStep = 0;
+
+        this.fadeInterval = window.setInterval(() => {
+            if (!this.currentBGM) return;
+
+            currentStep++;
+            const newVolume = originalVolume - (volumeStep * currentStep);
+            this.currentBGM.volume = Math.max(0, newVolume);
+
+            if (currentStep >= steps) {
+                if (this.fadeInterval) clearInterval(this.fadeInterval);
+                this.stopBGM();
+                this.currentBGM.volume = originalVolume;
+            }
+        }, stepDuration);
     }
 
     // BGM 일시정지
