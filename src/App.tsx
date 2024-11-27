@@ -1,6 +1,7 @@
 import IntroScene from "./game/scene/intro/introScene";
 import {useEffect, useState} from "react";
 import {createSceneManager, SceneRenderer} from "./engine/scene/sceneManager.tsx";
+import FictionDisclaimer from "./game/scene/intro/fictionDisclaimer.tsx";
 
 function App() {
     const [isInitialized, setIsInitialized] = useState(false);
@@ -10,6 +11,10 @@ function App() {
             {
                 path: '/intro',
                 component: () => <IntroScene />
+            },
+            {
+                path: '/disclaimer',
+                component: () => <FictionDisclaimer />
             }
         ]);
         setIsInitialized(true);
