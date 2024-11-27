@@ -1,6 +1,5 @@
-import { ReactNode } from 'react';
+import { ReactNode, useState, useEffect } from 'react';
 
-// IntroScene 정의를 위한 타입
 type SceneComponent = () => ReactNode;
 
 interface SceneObject {
@@ -17,14 +16,12 @@ interface SceneNavigator {
     sceneHistory: string[];
 }
 
-// IntroScene Manager 인스턴스를 저장할 전역 변수
 let sceneNavigator: SceneNavigator | null = null;
 let scenes: SceneObject[] = [];
+const subscribers: Set<(scene: string) => void> = new Set();
 
-// IntroScene 생성 함수
 export function createSceneManager(sceneRoutes: SceneObject[]) {
     scenes = sceneRoutes;
-
     const initialScene = scenes[0]?.path || '/';
 
     sceneNavigator = {
@@ -37,15 +34,16 @@ export function createSceneManager(sceneRoutes: SceneObject[]) {
                 return;
             }
 
-            // Preload if exists
             if (scene.preload) {
                 scene.preload().then(() => {
                     sceneNavigator!.currentScene = path;
                     sceneNavigator!.sceneHistory.push(path);
+                    subscribers.forEach(subscriber => subscriber(path));
                 });
             } else {
                 sceneNavigator!.currentScene = path;
                 sceneNavigator!.sceneHistory.push(path);
+                subscribers.forEach(subscriber => subscriber(path));
             }
         },
         back: () => {
@@ -54,13 +52,13 @@ export function createSceneManager(sceneRoutes: SceneObject[]) {
             sceneNavigator!.sceneHistory.pop();
             const previousScene = sceneNavigator!.sceneHistory[sceneNavigator!.sceneHistory.length - 1];
             sceneNavigator!.currentScene = previousScene;
+            subscribers.forEach(subscriber => subscriber(previousScene));
         }
     };
 
     return sceneNavigator;
 }
 
-// Scene을 찾는 헬퍼 함수
 function findScene(path: string, sceneList: SceneObject[]): SceneObject | null {
     for (const scene of sceneList) {
         if (scene.path === path) return scene;
@@ -72,23 +70,25 @@ function findScene(path: string, sceneList: SceneObject[]): SceneObject | null {
     return null;
 }
 
-// IntroScene 렌더러 컴포넌트
 export function SceneRenderer({initialScene}: {initialScene: string}) {
-    if (!sceneNavigator) {
-        throw new Error('SceneManager not initialized. Call createSceneManager first.');
-    }
+    const [currentScenePath, setCurrentScenePath] = useState(initialScene);
 
-    // 처음 렌더링 되는거라면?
-    if (sceneNavigator.currentScene === scenes[0]?.path) {
-        const initialSceneObject = findScene(initialScene, scenes);
-        if (initialSceneObject) {
-            sceneNavigator.currentScene = initialScene;
-        } else {
-            console.error(`Initial scene "${initialScene}" not found`);
+    useEffect(() => {
+        if (!sceneNavigator) {
+            throw new Error('SceneManager not initialized. Call createSceneManager first.');
         }
-    }
 
-    const currentScene = findScene(sceneNavigator.currentScene, scenes);
+        const subscriber = (scene: string) => {
+            setCurrentScenePath(scene);
+        };
+
+        subscribers.add(subscriber);
+        return () => {
+            subscribers.delete(subscriber);
+        };
+    }, []);
+
+    const currentScene = findScene(currentScenePath, scenes);
 
     if (!currentScene) {
         return <div>Scene not found</div>;
@@ -97,7 +97,6 @@ export function SceneRenderer({initialScene}: {initialScene: string}) {
     return <>{currentScene.component()}</>;
 }
 
-// IntroScene Hook
 export function useScene() {
     if (!sceneNavigator) {
         throw new Error('SceneManager not initialized. Call createSceneManager first.');
