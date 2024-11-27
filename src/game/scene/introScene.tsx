@@ -11,6 +11,10 @@ import {LightController} from "../../engine/lightEffect.ts";
 
 import Logo from '../../../public/images/logo.svg';
 import style from '../../styles/scene/introScene.module.scss';
+import {gsap} from "gsap";
+import SoundManager from "../../engine/sound/soundManager.ts";
+import {CSS2DRenderer} from "three/examples/jsm/renderers/CSS2DRenderer.js";
+import {FontLoader} from "three/examples/jsm/loaders/FontLoader.js";
 
 const IntroScene: React.FC = () => {
 	const mountRef = useRef<HTMLDivElement>(null);
@@ -22,7 +26,8 @@ const IntroScene: React.FC = () => {
 	const frameIdRef = useRef<number>(0);
 	const chandelierLightRef = useRef<THREE.SpotLight | null>(null);
 	const guiRef = useRef<GUI | null>(null);
-	const clipboardRef = useRef<THREE.Object3D | null>(null);
+	const logoRef = useRef<HTMLImageElement | null>(null);
+	const labelRendererRef = useRef<CSS2DRenderer | null>(null);
 
 	useEffect(() => {
 		if (!mountRef.current) return;
@@ -160,7 +165,9 @@ const IntroScene: React.FC = () => {
 			controls.target.set(0, 0, 0)
 			controlsRef.current = controls;
 
-			camera.lookAt(controls.target)
+			camera.rotation.set(
+				Math.PI / -2, 0, 0
+			)
 		};
 
 		const loadModel = (): void => {
@@ -248,6 +255,81 @@ const IntroScene: React.FC = () => {
 			);
 		};
 
+		const add3DText = () => {
+			if (!sceneRef.current) return;
+
+			const loader = new FontLoader();
+			loader.load('/fonts/NotoSans.json', (font) => {
+				const color = 0x000000;
+				const matLite = new THREE.MeshBasicMaterial({
+					color: color,
+					transparent: true,
+					opacity: 0.95,
+					side: THREE.DoubleSide
+				});
+
+				const message = `[ SUSPECTIVE ] Fiction Disclaimer\n
+All characters, events, locations, and situations appearing in this game are entirely fictional. 
+Any resemblance to real persons, living or dead, or actual events is purely coincidental and unintentional.
+The crimes, incidents, and investigation processes depicted in this game are constructed solely for dramatic effect and gameplay purposes, and may differ from actual investigative or legal procedures.
+While the game may contain portrayals of specific professions, organizations, regions, or institutions, these are purely works of fiction and bear no connection to their real-world counterparts.
+This game is created for entertainment purposes only and should not be used as educational material or legal reference.`;
+
+				// 텍스트 줄바꿈을 위한 함수
+				const wrapText = (text: string, maxWidth: number) => {
+					const words = text.split(' ');
+					const lines = [];
+					let currentLine = '';
+
+					words.forEach(word => {
+						// 임시로 단어를 추가해봄
+						const testLine = currentLine ? `${currentLine} ${word}` : word;
+						// 테스트용 geometry를 만들어서 너비 체크
+						const testShapes = font.generateShapes(testLine, 0.05);
+						const testGeometry = new THREE.ShapeGeometry(testShapes);
+						testGeometry.computeBoundingBox();
+
+						const lineWidth = testGeometry.boundingBox ?
+							testGeometry.boundingBox.max.x - testGeometry.boundingBox.min.x : 0;
+
+						if (lineWidth > maxWidth && currentLine) {
+							lines.push(currentLine);
+							currentLine = word;
+						} else {
+							currentLine = testLine;
+						}
+					});
+
+					if (currentLine) {
+						lines.push(currentLine);
+					}
+
+					return lines.join('\n');
+				};
+
+				// 원하는 최대 너비 설정 (Three.js 단위)
+				const maxWidth = 1.5;
+				const wrappedMessage = wrapText(message, maxWidth);
+
+				const shapes = font.generateShapes(wrappedMessage, 0.05);
+				const geometry = new THREE.ShapeGeometry(shapes);
+				geometry.computeBoundingBox();
+
+				if(geometry.boundingBox && sceneRef.current) {
+					const xMid = -0.5 * (geometry.boundingBox.max.x - geometry.boundingBox.min.x);
+					geometry.translate(xMid, 0, 0);
+
+					const text = new THREE.Mesh(geometry, matLite);
+					text.scale.set(0.095, 0.095, 0.095);
+					text.position.set(-0.32, -0.51, -0.24);
+					text.rotation.x = -Math.PI / 2;
+					text.rotation.z = Math.PI / -1.1;
+
+					sceneRef.current.add(text);
+				}
+			});
+		};
+
 		const animate = (): void => {
 			frameIdRef.current = requestAnimationFrame(animate);
 
@@ -257,6 +339,11 @@ const IntroScene: React.FC = () => {
 
 			if (composerRef.current && sceneRef.current && cameraRef.current) {
 				composerRef.current.render();
+
+				// CSS2D 렌더러 업데이트 추가
+				if (labelRendererRef.current) {
+					labelRendererRef.current.render(sceneRef.current, cameraRef.current);
+				}
 			}
 		};
 
@@ -274,6 +361,10 @@ const IntroScene: React.FC = () => {
 			if (composerRef.current) {
 				composerRef.current.setSize(width, height);
 			}
+
+			if (labelRendererRef.current) {
+				labelRendererRef.current.setSize(width, height);
+			}
 		};
 
 		const chandlerLightUpdate = (): void => {
@@ -283,15 +374,50 @@ const IntroScene: React.FC = () => {
 			lightController.playPattern('flicker');
 		}
 
+		const cameraAnimateToClipboard = () => {
+			playBGM()
+			if(cameraRef.current && controlsRef.current && logoRef.current) {
+				gsap.to(logoRef.current, {
+					opacity: 0,
+					duration: 1
+				})
+				gsap.to(cameraRef.current.position, {
+					x: -0.33252059617329155,
+					y: -0.294,
+					z: -0.375,
+					ease: 'power3.inOut',
+					duration: 4
+				});
+
+				gsap.to(controlsRef.current.target, {
+					x: 0,
+					y: -100,
+					z: 10,
+					ease: 'power4.inOut',
+					duration: 12
+				});
+			}
+		}
+
+		const playBGM = () => {
+			const soundManer = SoundManager.getInstance();
+
+			soundManer.loadSound('bgm', '/public/sounds/intro-daru.mp3');
+			soundManer.playBGM('bgm');
+			soundManer.setMusicVolume(0.1)
+		}
+
 		initScene();
+		add3DText();
 		loadModel();
 		animate();
-
 		setInterval(() => {
 			chandlerLightUpdate();
 		}, 3400);
 
 		window.addEventListener('resize', handleResize);
+
+		window.addEventListener('click', cameraAnimateToClipboard);
 
 		return () => {
 			window.removeEventListener('resize', handleResize);
@@ -309,6 +435,10 @@ const IntroScene: React.FC = () => {
 			if (guiRef.current) {
 				guiRef.current.destroy();
 			}
+
+			if (labelRendererRef.current && mountRef.current) {
+				mountRef.current.removeChild(labelRendererRef.current.domElement);
+			}
 		};
 	}, []);
 
@@ -321,7 +451,7 @@ const IntroScene: React.FC = () => {
 					height: '100vh',
 				}}
 			/>
-			<img src={Logo} className={style.logo}/>
+			<img ref={logoRef} src={Logo} className={style.logo}/>
 		</>
 	);
 };
