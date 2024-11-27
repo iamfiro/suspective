@@ -16,30 +16,30 @@ const WelcomeToStation = () => {
             character: 'me',
             text: '',
             audioPath: '/sounds/welcome/car_stop.mp3',
-            duraction: 6,
+            duraction: 8,
         },
         {
             character: 'boss',
             text: 'Welcome to the station',
-            audioPath: '/audio/boss/welcomeToStation.mp3',
+            audioPath: '/sounds/welcome/welcomeToStation.mp3',
             duraction: 3
         },
         {
             character: 'me',
             text: 'Thank you, sir',
-            audioPath: '/audio/me/thankYouSir.mp3',
+            audioPath: '/sounds/welcome/thankYouSir.mp3',
             duraction: 3
         },
         {
             character: 'boss',
             text: 'I hope you will enjoy your stay here',
-            audioPath: '/audio/boss/enjoyYourStay.mp3',
+            audioPath: '/sounds/welcome/enjoyYourStay.mp3',
             duraction: 3
         },
         {
             character: 'me',
             text: 'I will do my best',
-            audioPath: '/audio/me/iWillDoMyBest.mp3',
+            audioPath: '/sounds/welcome/iWillDoMyBest.mp3',
             duraction: 3
         }
     ];
