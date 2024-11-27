@@ -21,8 +21,8 @@ const FictionDisclaimer = () => {
             tl.to(p, {
                 opacity: 1,
                 y: 0,
-                duration: 2,
-                delay: index === 0 ? 0 : 2
+                duration: 1.5,
+                delay: index === 0 ? 0 : 1
             }, index === 0 ? 0 : '>');
         });
     }, []);
