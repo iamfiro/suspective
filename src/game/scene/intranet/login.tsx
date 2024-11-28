@@ -4,11 +4,9 @@ import Logo from '../../../../public/images/us_police_logo.svg';
 import {useScene} from "../../../engine/scene/sceneManager.tsx";
 
 const IntranetLogin = () => {
-    const [animatedText, setAnimatedText] = useState({
-        username: '',
-        password: ''
-    });
-    const [isTyping, setIsTyping] = useState(false);
+    const [animatedText, setAnimatedText] = useState({ username: '', password: '' });
+    const [showModal, setShowModal] = useState(false);
+    const [showOverlay, setShowOverlay] = useState(false);
     const {navigate} = useScene();
 
     const credentials = {
@@ -17,11 +15,9 @@ const IntranetLogin = () => {
     };
 
     const startTypingAnimation = () => {
-        setIsTyping(true);
         let usernameIndex = 0;
         let passwordIndex = 0;
 
-        // Type username first
         const usernameInterval = setInterval(() => {
             if (usernameIndex <= credentials.username.length) {
                 setAnimatedText(prev => ({
@@ -31,7 +27,6 @@ const IntranetLogin = () => {
                 usernameIndex++;
             } else {
                 clearInterval(usernameInterval);
-                // Start typing password after username is complete
                 const passwordInterval = setInterval(() => {
                     if (passwordIndex <= credentials.password.length) {
                         setAnimatedText(prev => ({
@@ -41,7 +36,6 @@ const IntranetLogin = () => {
                         passwordIndex++;
                     } else {
                         clearInterval(passwordInterval);
-                        setIsTyping(false);
                     }
                 }, 100);
             }
@@ -52,6 +46,18 @@ const IntranetLogin = () => {
         const timeout = setTimeout(startTypingAnimation, 1000);
         return () => clearTimeout(timeout);
     }, []);
+
+    const handleLogin = (e: React.MouseEvent) => {
+        e.preventDefault();
+        setShowModal(true);
+
+        setTimeout(() => {
+            setShowOverlay(true);
+            setTimeout(() => {
+                navigate('/difficultySelect');
+            }, 1000);
+        }, 1000);
+    };
 
     return (
         <main className={style.container}>
@@ -71,21 +77,13 @@ const IntranetLogin = () => {
                 <form className={style.loginForm}>
                     <div className={style.inputGroup}>
                         <label>USERNAME:</label>
-                        <input
-                            type="text"
-                            value={animatedText.username}
-                        />
+                        <input type="text" value={animatedText.username} readOnly />
                     </div>
                     <div className={style.inputGroup}>
                         <label>PASSWORD:</label>
-                        <input
-                            type="text"
-                            value={animatedText.password}
-                        />
+                        <input type="text" value={animatedText.password} readOnly />
                     </div>
-                    <button onClick={() => {
-                        navigate('/difficultySelect');
-                    }}>로그인</button>
+                    <button onClick={handleLogin}>로그인</button>
                 </form>
 
                 <div className={style.footer}>
@@ -94,6 +92,16 @@ const IntranetLogin = () => {
                     © 1985 DEPARTMENT OF JUSTICE
                 </div>
             </div>
+
+            {showModal && (
+                <div className={style.modal}>
+                    <div className={style.modalContent}>
+                        다시 오신 것을 환영합니다, 에밀리 님.
+                    </div>
+                </div>
+            )}
+
+            {showOverlay && <div className={style.overlay} />}
         </main>
     );
 };
