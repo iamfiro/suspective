@@ -3,10 +3,11 @@ import {useEffect, useState} from "react";
 import {createSceneManager, SceneRenderer} from "./engine/scene/sceneManager.tsx";
 import FictionDisclaimer from "./game/scene/intro/fictionDisclaimer.tsx";
 import WelcomeToStation from "./game/scene/intro/welcomeToStation.tsx";
-import DifficultySelect from "./game/scene/intro/difficultySelect.tsx";
 import IntranetBoot from "./game/scene/intranet/boot.tsx";
 import IntranetBootOS from "./game/scene/intranet/bootOS.tsx";
 import BootProgram from "./game/scene/intranet/bootProgram.tsx";
+import IntranetLogin from "./game/scene/intranet/login.tsx";
+import DifficultySelect from "./game/scene/intranet/DifficultySelect.tsx";
 
 function App() {
     const [isInitialized, setIsInitialized] = useState(false);
@@ -25,10 +26,6 @@ function App() {
                 path: '/welcomeToStation',
                 component: () => <WelcomeToStation />
             },
-            {
-                path: '/difficultySelect',
-                component: () => <DifficultySelect />
-            },
             // intraNet
             {
                 path: '/intranetBoot',
@@ -41,6 +38,14 @@ function App() {
             {
                 path: '/intranetBootProgram',
                 component: () => <BootProgram />
+            },
+            {
+                path: '/intranetLogin',
+                component: () => <IntranetLogin />
+            },
+            {
+                path: '/difficultySelect',
+                component: () => <DifficultySelect />
             }
         ]);
         setIsInitialized(true);
