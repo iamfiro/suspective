@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
 import style from '../../../styles/scene/intranet/login.module.scss';
 import Logo from '../../../../public/images/us_police_logo.svg';
+import {useScene} from "../../../engine/scene/sceneManager.tsx";
 
 const IntranetLogin = () => {
     const [animatedText, setAnimatedText] = useState({
@@ -8,6 +9,7 @@ const IntranetLogin = () => {
         password: ''
     });
     const [isTyping, setIsTyping] = useState(false);
+    const {navigate} = useScene();
 
     const credentials = {
         username: '********',
@@ -81,7 +83,9 @@ const IntranetLogin = () => {
                             value={animatedText.password}
                         />
                     </div>
-                    <button type="submit">로그인</button>
+                    <button onClick={() => {
+                        navigate('/difficultySelect');
+                    }}>로그인</button>
                 </form>
 
                 <div className={style.footer}>
