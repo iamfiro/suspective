@@ -17,8 +17,8 @@ const CameraController = () => {
 	});
 
 	useEffect(() => {
-		camera.position.set(position.x, position.y, position.z);
-		camera.rotation.set(rotation.x, rotation.y, rotation.z);
+		camera.position.set(0, -0.2, 1.9);
+		camera.rotation.set(0, -0.05, 0);
 		camera.updateProjectionMatrix();
 	}, [camera, position, rotation]);
 
