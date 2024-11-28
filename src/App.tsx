@@ -52,7 +52,7 @@ function App() {
 
     return (
         <>
-            <SceneRenderer initialScene={'/intro'} />
+            <SceneRenderer initialScene={'/intranetBootProgram'} />
         </>
     )
 }
