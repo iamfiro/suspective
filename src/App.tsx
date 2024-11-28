@@ -4,6 +4,7 @@ import {createSceneManager, SceneRenderer} from "./engine/scene/sceneManager.tsx
 import FictionDisclaimer from "./game/scene/intro/fictionDisclaimer.tsx";
 import WelcomeToStation from "./game/scene/intro/welcomeToStation.tsx";
 import DifficultySelect from "./game/scene/intro/difficultySelect.tsx";
+import IntranetBoot from "./game/scene/intranet/boot.tsx";
 
 function App() {
     const [isInitialized, setIsInitialized] = useState(false);
@@ -25,6 +26,11 @@ function App() {
             {
                 path: '/difficultySelect',
                 component: () => <DifficultySelect />
+            },
+            // intraNet
+            {
+                path: '/intranetBoot',
+                component: () => <IntranetBoot />
             }
         ]);
         setIsInitialized(true);
@@ -36,7 +42,7 @@ function App() {
 
     return (
         <>
-            <SceneRenderer initialScene={'/difficultySelect'} />
+            <SceneRenderer initialScene={'/intranetBoot'} />
         </>
     )
 }
