@@ -55,7 +55,7 @@ const DifficultySelect = () => {
     const handleDifficultySelect = (difficultyId: string) => {
         setSelectedDifficulty(difficultyId);
         setTimeout(() => {
-            navigate('/game-start');
+            navigate('/missionList');
         }, 1000);
     };
 
