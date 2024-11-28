@@ -17,6 +17,13 @@ const IntroScene: React.FC = () => {
 		soundManager.loadSound('bgm', '/sounds/crime_file.mp3');
 		soundManager.playBGM('bgm', true);
 		soundManager.setMusicVolume(0.2);
+		document.addEventListener('click', async () => {
+			const mainVideo: HTMLVideoElement | null = document.getElementById("mainVideo") as HTMLVideoElement
+			if (mainVideo) {
+				mainVideo.volume = 0.2;
+				await mainVideo.play()
+			}
+		})
 
 		// Cleanup on component unmount
 		return () => {
@@ -49,7 +56,7 @@ const IntroScene: React.FC = () => {
 	return (
 		<>
 			<img src={Logo} className={style.logo} alt={'logo'}/>
-			<video ref={videoRef} autoPlay loop muted className={style.video}>
+			<video id="mainVideo" ref={videoRef} loop className={style.video}>
 				<source src={'/videos/crime_file.mp4'} type={'video/mp4'}/>
 			</video>
 			<span className={style.startButton} onClick={() => handleStart()}>시작하기</span>
