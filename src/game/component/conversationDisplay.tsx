@@ -1,54 +1,57 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import SoundManager from "../../engine/sound/soundManager.ts";
 
 interface ConversationItem {
-    character: 'boss' | 'me';
-    text: string;
-    audioPath: string;
-    duration: number;
+	character: 'boss' | 'me';
+	text: string;
+	audioPath: string;
+	duration: number;
 }
 
 interface ConversationDisplayProps {
-    conversation: ConversationItem[];
-    onComplete?: () => void;
-    className?: string;
-    characterNameMap?: Record<string, string>;
+	conversation: ConversationItem[];
+	onComplete?: () => void;
+	className?: string;
+	characterNameMap?: Record<string, string>;
 }
 
 const ConversationDisplay = ({
-                                 conversation,
-                                 onComplete,
-                                 className = '',
-                                 characterNameMap = { boss: '상사', me: '나' }
+	                             conversation,
+	                             onComplete,
+	                             className = '',
+	                             characterNameMap = {boss: '상사', me: '나'}
                              }: ConversationDisplayProps) => {
-    const soundManager = SoundManager.getInstance();
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [subtitle, setSubtitle] = useState<string>('');
+	const soundManager = SoundManager.getInstance();
+	const [currentIndex, setCurrentIndex] = useState(0);
+	const [subtitle, setSubtitle] = useState<string>('');
 
-    useEffect(() => {
-        if (currentIndex >= conversation.length) {
-            onComplete?.();
-            return;
-        }
+	useEffect(() => {
+		if (currentIndex >= conversation.length) {
+			onComplete?.();
+			return;
+		}
 
-        const currentConv = conversation[currentIndex];
+		const currentConv = conversation[currentIndex];
 
-        console.debug(
-            `[Conservation] ${currentConv.character}: ${currentConv.text} (${currentConv.duration}s)`,
-        )
-        setSubtitle(`${currentConv.text}`);
-        soundManager.loadSound('voice', currentConv.audioPath);
-        soundManager.setMusicVolume(0.5);
-        soundManager.playSFX('voice');
+		console.debug(
+			`[Conservation] ${currentConv.character}: ${currentConv.text} (${currentConv.duration}s)`,
+		)
+		setSubtitle(`${currentConv.text}`);
+		soundManager.loadSound('voice', currentConv.audioPath);
+		soundManager.setMusicVolume(0.5);
+		soundManager.playSFX('voice');
 
-        const timer = setTimeout(() => {
-            setCurrentIndex(prev => prev + 1);
-        }, currentConv.duration * 1000);
+		const timer = setTimeout(() => {
+			setCurrentIndex(prev => prev + 1);
+		}, currentConv.duration * 1000);
 
-        return () => clearTimeout(timer);
-    }, [currentIndex, conversation, onComplete, characterNameMap]);
+		return () => {
+			clearTimeout(timer);
+			soundManager.clearSounds();  // 추가: 사운드 정리
+		};
+	}, [currentIndex, conversation, onComplete, characterNameMap]);
 
-    return <span className={className}>{subtitle}</span>;
+	return <span className={className}>{subtitle}</span>;
 };
 
 export default ConversationDisplay;
