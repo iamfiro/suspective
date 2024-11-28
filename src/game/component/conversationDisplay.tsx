@@ -5,7 +5,7 @@ interface ConversationItem {
     character: 'boss' | 'me';
     text: string;
     audioPath: string;
-    duraction: number;
+    duration: number;
 }
 
 interface ConversationDisplayProps {
@@ -33,7 +33,9 @@ const ConversationDisplay = ({
 
         const currentConv = conversation[currentIndex];
 
-        console.log('asd')
+        console.debug(
+            `[Conservation] ${currentConv.character}: ${currentConv.text} (${currentConv.duration}s)`,
+        )
         setSubtitle(`${currentConv.text}`);
         soundManager.loadSound('voice', currentConv.audioPath);
         soundManager.setMusicVolume(0.5);
@@ -41,7 +43,7 @@ const ConversationDisplay = ({
 
         const timer = setTimeout(() => {
             setCurrentIndex(prev => prev + 1);
-        }, currentConv.duraction * 1000);
+        }, currentConv.duration * 1000);
 
         return () => clearTimeout(timer);
     }, [currentIndex, conversation, onComplete, characterNameMap]);
