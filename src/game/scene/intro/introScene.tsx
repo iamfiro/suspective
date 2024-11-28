@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from 'react';
+import {useRef, useState} from 'react';
 import Logo from '../../../../public/images/logo.svg';
 import style from '../../../styles/scene/introScene.module.scss';
 import SoundManager from "../../../engine/sound/soundManager.ts";
@@ -11,25 +11,6 @@ const IntroScene: React.FC = () => {
 	const soundManager = SoundManager.getInstance();
 	const navigateAnimationRef = useRef<HTMLDivElement>(null);
 	const [isAnimated, setIsAnimated] = useState(false);
-
-	useEffect(() => {
-		// Load and play background music
-		soundManager.loadSound('bgm', '/sounds/crime_file.mp3');
-		soundManager.playBGM('bgm', true);
-		soundManager.setMusicVolume(0.2);
-		document.addEventListener('click', async () => {
-			const mainVideo: HTMLVideoElement | null = document.getElementById("mainVideo") as HTMLVideoElement
-			if (mainVideo) {
-				mainVideo.volume = 0.2;
-				await mainVideo.play()
-			}
-		})
-
-		// Cleanup on component unmount
-		return () => {
-			soundManager.stopBGM();
-		};
-	}, []);
 
 	// 화면 이동 및 전체 화면
 	const handleStart = () => {
