@@ -5,6 +5,7 @@ import {useScene} from "../../../engine/scene/sceneManager.tsx";
 import SoundManager from "../../../engine/sound/soundManager.ts";
 import style from "../../../styles/scene/welcomeToStation.module.scss";
 import ConversationDisplay from "../../component/conversationDisplay.tsx";
+import {IConversation} from "../intro/welcomeToStation.tsx";
 
 const IntranetBootOS = () => {
 	const [progress, setProgress] = useState(0);
@@ -35,7 +36,7 @@ const IntranetBootOS = () => {
 		if (progress < 100) {
 			timer = setTimeout(() => {
 				setProgress(prev => Math.min(prev + Math.random() * 10, 100));
-			}, 150);
+			}, 250);
 		} else {
 			setTimeout(() => {
 				navigate('/intranetBootProgram');
@@ -57,7 +58,7 @@ const IntranetBootOS = () => {
 				/>
 			</div>
 			<MemoizedConversationDisplay
-				conversation={conversation}
+				conversation={conversation as IConversation[]}
 				className={`${styles.subtitle} ${style.text}`}
 			/>
 		</main>
