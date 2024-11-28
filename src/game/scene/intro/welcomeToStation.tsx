@@ -34,7 +34,7 @@ const WelcomeToStation = () => {
             character: 'me',
             text: '저는 캘리포니아 출신입니다. 어릴때부터 거기서 자랐습니다.',
             audioPath: '/sounds/welcome/emily/b1.mp3',
-            duration: 2,
+            duration: 4,
         },
         {
             character: 'boss',
@@ -52,7 +52,7 @@ const WelcomeToStation = () => {
             character: 'me',
             text: '정말요?',
             audioPath: '/sounds/welcome/emily/b2.mp3',
-            duration: 1,
+            duration: 2,
         },
         {
             character: 'boss',
@@ -82,7 +82,7 @@ const WelcomeToStation = () => {
             character: 'boss',
             text: '유망한 단서가 있는 사건이든 네가 끌리는 걸로 시작해 봐.',
             audioPath: '/sounds/welcome/jack/a9.mp3',
-            duration: 3,
+            duration: 4,
         },
         {
             character: 'me',
