@@ -54,3 +54,14 @@
         transform: translateY(0);
     }
 }
+
+
+.subtitle {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+
+    z-index: 1;
+
+    transform: translateX(-50%);
+}

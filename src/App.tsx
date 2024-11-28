@@ -5,6 +5,8 @@ import FictionDisclaimer from "./game/scene/intro/fictionDisclaimer.tsx";
 import WelcomeToStation from "./game/scene/intro/welcomeToStation.tsx";
 import DifficultySelect from "./game/scene/intro/difficultySelect.tsx";
 import IntranetBoot from "./game/scene/intranet/boot.tsx";
+import IntranetBootOS from "./game/scene/intranet/bootOS.tsx";
+import BootProgram from "./game/scene/intranet/bootProgram.tsx";
 
 function App() {
     const [isInitialized, setIsInitialized] = useState(false);
@@ -31,6 +33,14 @@ function App() {
             {
                 path: '/intranetBoot',
                 component: () => <IntranetBoot />
+            },
+            {
+                path: '/intranetBootOS',
+                component: () => <IntranetBootOS />
+            },
+            {
+                path: '/intranetBootProgram',
+                component: () => <BootProgram />
             }
         ]);
         setIsInitialized(true);
@@ -42,7 +52,7 @@ function App() {
 
     return (
         <>
-            <SceneRenderer initialScene={'/intranetBoot'} />
+            <SceneRenderer initialScene={'/intro'} />
         </>
     )
 }

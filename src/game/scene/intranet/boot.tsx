@@ -1,9 +1,25 @@
 import {useEffect, useState} from 'react';
 import styles from '../../../styles/scene/intranet/boot.module.scss';
+import style from '../../../styles/scene/welcomeToStation.module.scss'
 import USPoliceLogo from "../../component/intranet/usPoliceLogo.tsx";
+import {useScene} from "../../../engine/scene/sceneManager.tsx";
+import {IConversation} from "../intro/welcomeToStation.tsx";
+import ConversationDisplay from "../../component/conversationDisplay.tsx";
+import SoundManager from "../../../engine/sound/soundManager.ts";
 
 const IntranetBoot = () => {
 	const [logs, setLogs] = useState<string[]>([]);
+	const {navigate} = useScene();
+	const soundManager = SoundManager.getInstance();
+
+	const conversation: IConversation[] = [
+		{
+			character: 'me',
+			text: '알겠어요. 그럼 어디서부터 시작하면 좋을까요?',
+			audioPath: '',
+			duration: 3,
+		},
+	];
 
 	const bootMessages: string[] = [
 		"[ OK ] Started Show Plymouth Boot Screen",
@@ -58,45 +74,57 @@ const IntranetBoot = () => {
 		"Loading system services... Please wait..."
 	];
 
-    useEffect(() => {
-        let currentIndex = 0;
+	useEffect(() => {
+		soundManager.loadSound('talk', '/sounds/welcome/emily/b3.mp3');
+		soundManager.playSFX('talk');
+	}, []);
 
-        const interval = setInterval(() => {
-            if (currentIndex < bootMessages.length) {
-                setLogs(prev => [...prev, bootMessages[currentIndex]]);
-                currentIndex++;
-            } else {
-                clearInterval(interval);
-            }
-        }, 40);
+	useEffect(() => {
+		let currentIndex = 0;
 
-        return () => clearInterval(interval);
-    }, []);
+		const interval = setInterval(() => {
+			if (currentIndex < bootMessages.length) {
+				setLogs(prev => [...prev, bootMessages[currentIndex]]);
+				currentIndex++;
+			} else {
+				clearInterval(interval);
+				setTimeout(() => {
+					navigate('/intranetBootOS');
+				}, 1000)
+			}
+		}, 40);
 
-    return (
-        <div className={styles.container}>
-            <div className={styles.content}>
-                {logs.map((log, index) => {
-                    const isOK = log?.includes("[ OK ]");
-                    const isError = log?.includes("[ERROR]");
+		return () => clearInterval(interval);
+	}, []);
 
-                    return (
-                        <div
-                            key={index}
-                            className={`${styles.logLine} ${
-                                isOK ? styles.success :
-                                isError ? styles.error :
-                                styles.normal
-                            }`}
-                        >
-                            {log}
-                        </div>
-                    );
-                })}
-            </div>
-	        <USPoliceLogo />
-        </div>
-    );
+	return (
+		<div className={styles.container}>
+			<div className={styles.content}>
+				{logs.map((log, index) => {
+					const isOK = log?.includes("[ OK ]");
+					const isError = log?.includes("[ERROR]");
+
+					return (
+						<div
+							key={index}
+							className={`${styles.logLine} ${
+								isOK ? styles.success :
+									isError ? styles.error :
+										styles.normal
+							}`}
+						>
+							{log}
+						</div>
+					);
+				})}
+			</div>
+			<USPoliceLogo/>
+			<ConversationDisplay
+                conversation={conversation}
+                className={`${styles.subtitle} ${style.text}`}
+            />
+		</div>
+	);
 }
 
 export default IntranetBoot;
