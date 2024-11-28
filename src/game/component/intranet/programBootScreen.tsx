@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import style from './programBootScreen.module.scss';
+import {useScene} from "../../../engine/scene/sceneManager.tsx";
 
 const ProgramBootScreen = () => {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -8,6 +9,8 @@ const ProgramBootScreen = () => {
     const textRef = useRef<HTMLDivElement>(null);
     const messageRef = useRef<HTMLDivElement>(null);
     const [currentMessage, setCurrentMessage] = useState<string>("");
+    const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+    const {navigate} = useScene()
 
     useEffect(() => {
         const messages = [
@@ -17,12 +20,10 @@ const ProgramBootScreen = () => {
             "연결 완료. 프로그램 로딩 중...",
         ];
 
-        // 메시지 전환 애니메이션
         const animateMessage = (msg: string) => {
             const tl = gsap.timeline();
 
             if (messageRef.current) {
-                // 현재 메시지를 위로 올리면서 페이드아웃
                 tl.to(messageRef.current, {
                     y: -30,
                     opacity: 0,
@@ -31,7 +32,6 @@ const ProgramBootScreen = () => {
                         setCurrentMessage(msg);
                     }
                 })
-                    // 새 메시지를 아래에서 위로 올리면서 페이드인
                     .fromTo(messageRef.current,
                         {
                             y: 30,
@@ -46,10 +46,41 @@ const ProgramBootScreen = () => {
             }
         };
 
-        // 메시지 순차 표시
+        // 메시지 순차 표시 및 전체화면 전환 트리거
         messages.forEach((msg, i) => {
             setTimeout(() => {
                 animateMessage(msg);
+                // 마지막 메시지 후 2초 뒤에 전체화면 전환
+                if (i === messages.length - 1) {
+                    setTimeout(() => {
+                        setIsFullscreen(true);
+                        // 전체화면 애니메이션
+                        if (containerRef.current) {
+                            gsap.to(containerRef.current, {
+                                position: 'fixed',
+                                top: 0,
+                                left: 0,
+                                width: '100vw',
+                                height: '100vh',
+                                transform: 'translate(0, 0)',
+                                backgroundColor: '#0c1f4c',
+                                duration: 1,
+                                ease: 'power2.inOut'
+                            }).then(() => {
+                                console.log('전체화면 전환 완료');
+                                navigate('/intranetLogin');
+                            });
+                        }
+                        // 내용물 페이드아웃
+                        if (logoRef.current && textRef.current) {
+                            gsap.to([logoRef.current, textRef.current], {
+                                opacity: 0,
+                                duration: 0.5,
+                                delay: 0.5
+                            });
+                        }
+                    }, 2000);
+                }
             }, 1000 + (i * 2800));
         });
 
@@ -60,7 +91,6 @@ const ProgramBootScreen = () => {
             delay: 1
         });
 
-        // Initial state
         if (logoRef.current) {
             gsap.set(logoRef.current, {
                 scale: 0.8,
@@ -69,7 +99,6 @@ const ProgramBootScreen = () => {
             });
         }
 
-        // Handle text children animation setup
         const textChildren = textRef.current?.children;
         if (textChildren && textChildren.length > 0) {
             gsap.set(Array.from(textChildren), {
@@ -78,7 +107,6 @@ const ProgramBootScreen = () => {
             });
         }
 
-        // Main animation sequence
         if (logoRef.current) {
             mainTl.to(logoRef.current, {
                 duration: 1.5,
@@ -94,7 +122,6 @@ const ProgramBootScreen = () => {
                 });
         }
 
-        // Animate text children
         if (textChildren && textChildren.length > 0) {
             mainTl.to(Array.from(textChildren), {
                 duration: 0.6,
@@ -110,7 +137,10 @@ const ProgramBootScreen = () => {
     }, []);
 
     return (
-        <div ref={containerRef} className={style.container}>
+        <div
+            ref={containerRef}
+            className={`${style.container} ${isFullscreen ? style.fullscreen : ''}`}
+        >
             <img
                 ref={logoRef}
                 className={style.logo}
