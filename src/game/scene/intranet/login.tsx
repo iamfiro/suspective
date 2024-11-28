@@ -56,7 +56,7 @@ const IntranetLogin = () => {
             setTimeout(() => {
                 navigate('/difficultySelect');
             }, 1000);
-        }, 1000);
+        }, 2000);
     };
 
     return (
