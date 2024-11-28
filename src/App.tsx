@@ -8,6 +8,7 @@ import IntranetBootOS from "./game/scene/intranet/bootOS.tsx";
 import BootProgram from "./game/scene/intranet/bootProgram.tsx";
 import IntranetLogin from "./game/scene/intranet/login.tsx";
 import DifficultySelect from "./game/scene/intranet/DifficultySelect.tsx";
+import MissionList from "./game/scene/intranet/missionList.tsx";
 
 function App() {
     const [isInitialized, setIsInitialized] = useState(false);
@@ -46,6 +47,10 @@ function App() {
             {
                 path: '/difficultySelect',
                 component: () => <DifficultySelect />
+            },
+            {
+                path: '/missionList',
+                component: () => <MissionList />
             }
         ]);
         setIsInitialized(true);
@@ -57,7 +62,7 @@ function App() {
 
     return (
         <>
-            <SceneRenderer initialScene={'/intranetBoot'} />
+            <SceneRenderer initialScene={'/missionList'} />
         </>
     )
 }
