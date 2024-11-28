@@ -1,4 +1,5 @@
 import { Canvas } from "@react-three/fiber";
+import { OrbitControls } from "@react-three/drei";
 import style from '../../../styles/scene/difficultySelect.module.scss';
 import CameraController from "../../component/cameraController.tsx";
 import Monitor from "../../component/intro/difficultySelect/monitor.tsx";
@@ -12,6 +13,13 @@ const DifficultySelect = () => {
             <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} decay={0} intensity={Math.PI}/>
             <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI}/>
             <Monitor />
+            <OrbitControls
+                enableZoom={true}
+                enablePan={true}
+                enableRotate={true}
+                minDistance={2}
+                maxDistance={20}
+            />
             <CameraController />
             <PoliceStation />
             <Desk />
