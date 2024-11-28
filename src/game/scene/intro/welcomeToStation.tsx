@@ -1,8 +1,9 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import style from '../../../styles/scene/welcomeToStation.module.scss';
 import ConversationDisplay from "../../component/conversationDisplay.tsx";
+import {useScene} from "../../../engine/scene/sceneManager.tsx";
 
-interface IConversation {
+export interface IConversation {
     character: 'boss' | 'me'
     text: string
     audioPath: string
@@ -10,7 +11,8 @@ interface IConversation {
 }
 
 const WelcomeToStation = () => {
-    const [isInitialized, setIsInitialized] = useState(false);
+    const [_, setIsInitialized] = useState(false);
+    const {navigate} = useScene();
     const conversation: IConversation[] = [
         {
             character: 'boss',
@@ -66,30 +68,30 @@ const WelcomeToStation = () => {
             audioPath: '/sounds/welcome/jack/a7.mp3',
             duration: 5,
         },
-        {
-            character: 'me',
-            text: '알겠어요. 그럼 어디서부터 시작하면 좋을까요?',
-            audioPath: '/sounds/welcome/emily/b3.mp3',
-            duration: 3,
-        },
-        {
-            character: 'boss',
-            text: '네 감으로 골라봐. 개인적으로 흥미로운 사건이든',
-            audioPath: '/sounds/welcome/jack/a8.mp3',
-            duration: 3,
-        },
-        {
-            character: 'boss',
-            text: '유망한 단서가 있는 사건이든 네가 끌리는 걸로 시작해 봐.',
-            audioPath: '/sounds/welcome/jack/a9.mp3',
-            duration: 4,
-        },
-        {
-            character: 'me',
-            text: '알겠습니다. 자료 좀 살펴보고 어떤 걸로 할지 알려드릴게요',
-            audioPath: '/sounds/welcome/emily/b4.mp3',
-            duration: 4,
-        },
+        // {
+        //     character: 'me',
+        //     text: '알겠어요. 그럼 어디서부터 시작하면 좋을까요?',
+        //     audioPath: '/sounds/welcome/emily/b3.mp3',
+        //     duration: 3,
+        // },
+        // {
+        //     character: 'boss',
+        //     text: '네 감으로 골라봐. 개인적으로 흥미로운 사건이든',
+        //     audioPath: '/sounds/welcome/jack/a8.mp3',
+        //     duration: 3,
+        // },
+        // {
+        //     character: 'boss',
+        //     text: '유망한 단서가 있는 사건이든 네가 끌리는 걸로 시작해 봐.',
+        //     audioPath: '/sounds/welcome/jack/a9.mp3',
+        //     duration: 4,
+        // },
+        // {
+        //     character: 'me',
+        //     text: '알겠습니다. 자료 좀 살펴보고 어떤 걸로 할지 알려드릴게요',
+        //     audioPath: '/sounds/welcome/emily/b4.mp3',
+        //     duration: 4,
+        // },
     ];
 
     return (
@@ -97,6 +99,7 @@ const WelcomeToStation = () => {
             <ConversationDisplay
                 conversation={conversation}
                 className={style.text}
+                onComplete={() => navigate('/intranetBoot')}
             />
             <span onClick={() => setIsInitialized((init) => {
                 if (init) {
