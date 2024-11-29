@@ -96,7 +96,7 @@ const IntranetLogin = () => {
             {showModal && (
                 <div className={style.modal}>
                     <div className={style.modalContent}>
-                        다시 오신 것을 환영합니다, 에밀리 님.
+                        다시 오신 것을 환영합니다, Emily 님.
                     </div>
                 </div>
             )}
