@@ -20,7 +20,7 @@ const MissionList = () => {
     const sessions: Session[] = [
         {
             id: '1',
-            title: '로스앤젤레스 마약 조직 수사',
+            title: '수원시 마약 조직 수사',
             players: 4,
             location: 'LA Downtown',
             status: 'active',
@@ -28,7 +28,23 @@ const MissionList = () => {
         },
         {
             id: '2',
-            title: '샌프란시스코 인신매매 조직 감시',
+            title: '안산구 인신매매 조직 감시',
+            players: 6,
+            location: 'SF Bay Area',
+            status: 'pending',
+            startTime: '12:00 PM'
+        },
+        {
+            id: '2',
+            title: '화성시 정은수 강간 살인 사건',
+            players: 6,
+            location: 'SF Bay Area',
+            status: 'pending',
+            startTime: '12:00 PM'
+        },
+        {
+            id: '2',
+            title: '정은수 맥북 갈취 사건',
             players: 6,
             location: 'SF Bay Area',
             status: 'pending',
