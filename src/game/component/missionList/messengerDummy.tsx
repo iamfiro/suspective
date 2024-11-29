@@ -67,13 +67,13 @@ const MessengerDummy = () => {
              />
              <Messenger
                 profileImage="/images/messenger/woman_3.jpg"
-                name="Emily"
+                name="Emma"
                 message="다음 주에 미팅 있습니다"
                 index={3}
              />
              <Messenger
-                profileImage="/images/messenger/man_2.jpg"
-                name="Daniel"
+                profileImage="/images/messenger/man_4.jpg"
+                name="Trump"
                 message="오늘 저녁에 저랑 같이 운동하실래요?"
                 index={4}
              />
