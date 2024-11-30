@@ -6,3 +6,8 @@
     background-size: cover;
     background-position: center;
 }
+
+.content {
+    width: 100%;
+    height: calc(100% - 40px);
+}
