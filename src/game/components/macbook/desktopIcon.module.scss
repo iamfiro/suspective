@@ -1,0 +1,59 @@
+.container {
+    width: fit-content;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+
+    padding: 5px;
+}
+
+.iconContainer {
+    width: 70px;
+    height: 70px;
+
+    border-radius: 4px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .icon {
+        width: 80px;
+    }
+}
+
+.nameContainer {
+    display: flex;
+    gap: 5px;
+
+    padding: 1.5px 3px;
+
+    border-radius: 3px;
+
+    margin-top: -2.5px;
+
+    span {
+        font-size: 10px;
+
+        text-shadow: 0 2px 5px rgba(0, 0, 0, .5);
+
+        color: var(--white);
+    }
+}
+
+.container {
+    &[data-clicked="true"] {
+        .iconContainer {
+            background-color: rgba(0, 0, 0, 0.2);
+
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        .nameContainer {
+            background-color: var(--blue);
+
+            margin-top: 0;
+        }
+    }
+}
