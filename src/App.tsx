@@ -1,17 +1,12 @@
-import IntroScene from "./game/scenes/intro/introScene";
 import {useEffect, useState} from "react";
 import {createSceneManager, SceneRenderer} from "./engine/scene/sceneManager.tsx";
-import SceneMacBootScreen from "@scene/macbook/boot/sceneMacBootScreen";
+import SceneMacBootScreen from "./game/scenes/macbook/bootScreen.tsx";
 
 function App() {
     const [isInitialized, setIsInitialized] = useState(false);
 
     useEffect(() => {
         createSceneManager([
-            {
-                path: '/intro',
-                component: () => <IntroScene />
-            },
             {
                 path: '/macbook/boot',
                 component: () => <SceneMacBootScreen />
