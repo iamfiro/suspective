@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {createSceneManager, SceneRenderer} from "./engine/scene/sceneManager.tsx";
 import SceneMacBootScreen from "./game/scenes/macbook/bootScreen.tsx";
+import {MacLoginScreen} from "./game/scenes/macbook/loginScreen.tsx";
 
 function App() {
     const [isInitialized, setIsInitialized] = useState(false);
@@ -10,6 +11,10 @@ function App() {
             {
                 path: '/macbook/boot',
                 component: () => <SceneMacBootScreen />
+            },
+            {
+                path: '/macbook/login',
+                component: () => <MacLoginScreen />
             }
         ]);
         setIsInitialized(true);
@@ -21,7 +26,7 @@ function App() {
 
     return (
         <>
-            <SceneRenderer initialScene={'/macbook/boot'} />
+            <SceneRenderer initialScene={'/macbook/login'} />
         </>
     )
 }
