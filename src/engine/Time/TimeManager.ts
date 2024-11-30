@@ -92,15 +92,11 @@ class TimeManager {
 
     // 포맷팅된 시간 문자열 반환
     public getFormattedTime(format: 'HH:mm' | 'MM월 DD일 dddd' | 'YYYY년 MM월 DD일'): string {
-        console.log('Current Time:', this.currentTime); // 현재 시간 객체 출력
-
         const year = this.currentTime.getFullYear();
         const month = this.currentTime.getMonth() + 1;
         const date = this.currentTime.getDate();
         const hours = this.currentTime.getHours();
         const minutes = this.currentTime.getMinutes();
-
-        console.log('Hours:', hours, 'Minutes:', minutes); // 시간과 분 값 출력
 
         const day = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'][this.currentTime.getDay()];
 
