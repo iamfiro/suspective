@@ -26,7 +26,7 @@ function App() {
 
     return (
         <>
-            <SceneRenderer initialScene={'/macbook/login'} />
+            <SceneRenderer initialScene={'/macbook/boot'} />
         </>
     )
 }
