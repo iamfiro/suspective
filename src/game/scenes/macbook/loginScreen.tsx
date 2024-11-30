@@ -23,22 +23,15 @@ export const MacLoginScreen = () => {
     useEffect(() => {
         const timeManager = TimeManager.getInstance();
 
-        // 초기 시간 설정
-        timeManager.setTime(new Date('2024-11-30T06:46:00'));
-
         // 시간 업데이트 콜백 등록
         const removeCallback = timeManager.onTimeUpdate(() => {
             setCurrentDate(timeManager.getFormattedTime('MM월 DD일 dddd'));
             setCurrentTime(timeManager.getFormattedTime('HH:mm'));
         });
 
-        // 시간 시스템 시작
-        timeManager.start();
-
         // 컴포넌트 언마운트시 정리
         return () => {
             removeCallback();
-            timeManager.stop();
         };
     }, []);
 

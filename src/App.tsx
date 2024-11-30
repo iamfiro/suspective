@@ -2,9 +2,18 @@ import {useEffect, useState} from "react";
 import {createSceneManager, SceneRenderer} from "./engine/scene/sceneManager.tsx";
 import SceneMacBootScreen from "./game/scenes/macbook/bootScreen.tsx";
 import {MacLoginScreen} from "./game/scenes/macbook/loginScreen.tsx";
+import TimeManager from "./engine/Time/TimeManager.ts";
 
 function App() {
     const [isInitialized, setIsInitialized] = useState(false);
+
+    useEffect(() => {
+        const timeManager = TimeManager.getInstance();
+        // 초기 시간 설정
+        timeManager.setTime(new Date('2024-11-30T06:46:00'));
+
+        timeManager.start();
+    }, []);
 
     useEffect(() => {
         createSceneManager([
