@@ -1,6 +1,6 @@
 import style from './desktopIcon.module.scss';
 import {DesktopItemType} from "../../../types/program.ts";
-import {useState} from "react";
+import useBackgroundSelectedIcon from "../../../states/backgroundSelectedIcon.ts";
 
 interface DesktopFolderProps {
     type: DesktopItemType;
@@ -8,7 +8,8 @@ interface DesktopFolderProps {
 }
 
 export const DesktopIcon = ({ type, name }: DesktopFolderProps) => {
-    const [isClicked, setIsClicked] = useState(false);
+    const {setSelectedName, selectedName} = useBackgroundSelectedIcon();
+
     switch (type) {
         case "application":
             return (
@@ -19,11 +20,12 @@ export const DesktopIcon = ({ type, name }: DesktopFolderProps) => {
                 <div
                     className={style.container}
                     onClick={() => {
-                        console.log('clicked')
-                        setIsClicked(true);
-                        console.log(isClicked);
+                        console.log(`clicked ${name}`);
+                        setSelectedName(name);
+                        console.log(`selectedName: ${selectedName}`);
                     }}
-                    data-clicked={isClicked}
+
+                    data-clicked={selectedName === name}
                 >
                     <div className={style.iconContainer}>
                         <img src="/images/macbook/folder.webp" alt={`${name} folder`} className={style.icon} />
