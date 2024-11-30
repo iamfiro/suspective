@@ -27,7 +27,7 @@ export const MacLoginScreen = () => {
         timeManager.setTime(new Date('2024-11-30T06:46:00'));
 
         // 시간 업데이트 콜백 등록
-        const removeCallback = timeManager.onTimeUpdate((time) => {
+        const removeCallback = timeManager.onTimeUpdate(() => {
             setCurrentDate(timeManager.getFormattedTime('MM월 DD일 dddd'));
             setCurrentTime(timeManager.getFormattedTime('HH:mm'));
         });
