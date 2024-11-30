@@ -66,7 +66,7 @@ export const MacBootScreen = () => {
                     animationRef.current = requestAnimationFrame(animate);
                 } else {
                     setTimeout(() => {
-                        navigate('/login');
+                        navigate('/macbook/login');
                     }, 500);
                 }
             };
