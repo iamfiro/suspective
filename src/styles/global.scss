@@ -1,7 +1,9 @@
 @import url("https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.3/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css");
 
 :root {
-    --color-mac-boot-screen: #000;
+    --mac-boot-screen: #000;
+    --mac-boot-progress: rgba(255, 255, 255, 0.1);
+    --mac-boot-progress-border: rgba(255, 255, 255, 0.15);
 }
 
 @font-face {
