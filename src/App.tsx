@@ -3,6 +3,7 @@ import {createSceneManager, SceneRenderer} from "./engine/scene/sceneManager.tsx
 import SceneMacBootScreen from "./game/scenes/macbook/bootScreen.tsx";
 import {MacLoginScreen} from "./game/scenes/macbook/loginScreen.tsx";
 import TimeManager from "./engine/Time/TimeManager.ts";
+import Macbook from "./game/scenes/macbook";
 
 function App() {
     const [isInitialized, setIsInitialized] = useState(false);
@@ -24,6 +25,10 @@ function App() {
             {
                 path: '/macbook/login',
                 component: () => <MacLoginScreen />
+            },
+            {
+                path: '/macbook/desktop',
+                component: () => <Macbook />
             }
         ]);
         setIsInitialized(true);
@@ -35,7 +40,7 @@ function App() {
 
     return (
         <>
-            <SceneRenderer initialScene={'/macbook/boot'} />
+            <SceneRenderer initialScene={'/macbook/desktop'} />
         </>
     )
 }
