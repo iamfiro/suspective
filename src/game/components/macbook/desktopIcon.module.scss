@@ -22,6 +22,20 @@
     .icon {
         width: 80px;
     }
+
+    .appIcon {
+        width: 70px;
+        border-radius: 8px;
+    }
+
+    .imageIcon{
+        max-width: 55px;
+        max-height: 55px;
+
+        outline: 3px solid var(--white);
+
+        box-shadow: 0 2px 5px rgba(0, 0, 0, .5);
+    }
 }
 
 .nameContainer {
@@ -33,7 +47,8 @@
     border-radius: 3px;
 
     span {
-        font-size: 10px;
+        font-size: 11px;
+        font-weight: 500;
 
         text-shadow: 0 2px 5px rgba(0, 0, 0, .5);
 
