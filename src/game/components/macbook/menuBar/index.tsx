@@ -1,8 +1,8 @@
-import style from './menuBar.module.scss';
-import Battery from '../../../../public/images/macbook/control/battery.svg';
+import style from './style.module.scss';
+import Battery from '../../../../../public/images/macbook/control/battery.svg';
 import { MdOutlineWifi } from "react-icons/md";
 import { SiDolby } from "react-icons/si";
-import AppleIcon from '../../../../public/images/macbook/apple_logo.svg';
+import AppleIcon from '../../../../../public/images/macbook/apple_logo.svg';
 
 export const MenuBar = () => {
     return (
@@ -29,5 +29,3 @@ export const MenuBar = () => {
         </header>
     )
 }
-
-export default MenuBar;

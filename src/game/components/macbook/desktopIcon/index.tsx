@@ -1,6 +1,6 @@
-import style from './desktopIcon.module.scss';
-import { DesktopItemType } from "../../../types/program.ts";
-import useBackgroundSelectedIcon from "../../../states/backgroundSelectedIcon.ts";
+import style from './style.module.scss';
+import { DesktopItemType } from "../../../../types/program.ts";
+import useBackgroundSelectedIcon from "../../../../states/backgroundSelectedIcon.ts";
 import { MouseEvent } from "react";
 
 interface DesktopIconProps {
@@ -73,5 +73,3 @@ export const DesktopIcon = ({ type, iconSrc, name, x, y }: DesktopIconProps) => 
         </div>
     );
 };
-
-export default DesktopIcon;

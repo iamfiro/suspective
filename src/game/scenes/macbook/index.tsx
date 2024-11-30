@@ -1,7 +1,7 @@
 import style from '../../../styles/scene/macbook/index.module.scss'
-import MenuBar from "../../components/macbook/menuBar.tsx";
 import useBackgroundSelectedIcon from "../../../states/backgroundSelectedIcon.ts";
-import {DesktopProgramList} from "../../components/macbook/desktopProgramList.tsx";
+import {MenuBar} from "../../components/macbook/menuBar";
+import {DesktopProgramList} from "../../components/macbook/desktopProgramList";
 
 export const Macbook = () => {
     const {setSelectedName} = useBackgroundSelectedIcon();
@@ -9,8 +9,6 @@ export const Macbook = () => {
     const handleClickBackground = () => {
         setSelectedName('');
     }
-
-
 
     return (
         <main className={style.container}>

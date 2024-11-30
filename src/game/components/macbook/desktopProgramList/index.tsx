@@ -1,6 +1,6 @@
-import {useRandomGridPositions} from "../../../hooks/useRandomGridPositions.ts";
-import {MACBOOK_BACKGROUND_PROGRAMS} from "../../../constant/macbook.ts";
-import DesktopIcon from "./desktopIcon.tsx";
+import {useRandomGridPositions} from "../../../../hooks/useRandomGridPositions.ts";
+import {MACBOOK_BACKGROUND_PROGRAMS} from "../../../../constant/macbook.ts";
+import {DesktopIcon} from "../desktopIcon";
 
 const MENU_BAR_HEIGHT = 30;
 const WIDGET_WIDTH = 300;
