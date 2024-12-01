@@ -38,6 +38,11 @@
 
     transition: all 0.2s ease;
 
+    &:active {
+        transform: scale(0.9);
+        filter: brightness(0.4);
+    }
+
     img {
         width: 100%;
         height: 100%;
