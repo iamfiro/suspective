@@ -1,5 +1,6 @@
-// import style from './style.module.scss';
+import style from './style.module.scss';
 import MacProgram from "../../index.tsx";
+import {KakaoTalkRoomList} from "./RoomList";
 
 export const Kakaotalk = ({id}: {id: string}) => {
     return (
@@ -8,12 +9,8 @@ export const Kakaotalk = ({id}: {id: string}) => {
             title="Calculator"
             icon="/icons/calculator.png"
         >
-            <div>
-                <span>하이</span>
-                {/* 계산기 내용 */}
-                <input type="number" />
-                <button>+</button>
-                <button>-</button>
+            <div className={style.container}>
+                <KakaoTalkRoomList />
             </div>
         </MacProgram>
     )
