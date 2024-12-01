@@ -2,16 +2,21 @@ import style from './style.module.scss';
 import {KakaoTalkNavBar} from "../NavBar";
 
 interface RoomProps {
+    id: string
     name: string;
     lastMessage: string;
     time: string;
     unreadCount?: number;
     profileImage?: string;
+    onClick?: () => void;
 }
 
-export const Room = ({ name, lastMessage, time, unreadCount, profileImage }: RoomProps) => {
+export const Room = ({ name, lastMessage, time, unreadCount, profileImage, onClick }: RoomProps) => {
     return (
-        <div className={style.room}>
+        <div
+            className={style.room}
+            onClick={onClick}
+        >
             <div className={style.profileImage}>
                 {profileImage ? (
                     <img src={profileImage} alt={name} />
@@ -35,9 +40,12 @@ export const Room = ({ name, lastMessage, time, unreadCount, profileImage }: Roo
     );
 };
 
-export const KakaoTalkRoomList = () => {
+export const KakaoTalkRoomList = ({
+                                      onSelectRoom
+}: {onSelectRoom: (id: string) => void}) => {
     const rooms: RoomProps[] = [
         {
+            id: "1",
             name: "가족 단톡방",
             lastMessage: "오늘 저녁에 뭐먹을까요?",
             time: "오후 2:30",
@@ -45,6 +53,7 @@ export const KakaoTalkRoomList = () => {
             profileImage: "https://play-lh.googleusercontent.com/cQwhJM-8imz4TmAAEFFhXIydURdfAZ2YlMSsuEl4gkvDJKq_UZlJagZ5qZUEUx0Odmg"
         },
         {
+            id: "2",
             name: "회사 동기들",
             lastMessage: "다들 퇴근했어?",
             time: "오후 1:15",
@@ -61,7 +70,11 @@ export const KakaoTalkRoomList = () => {
                 </header>
                 <div className={style.roomList}>
                     {rooms.map((room, index) => (
-                        <Room key={index} {...room} />
+                        <Room
+                            key={index}
+                            onClick={() => onSelectRoom(room.id)}
+                            {...room}
+                        />
                     ))}
                 </div>
             </div>
