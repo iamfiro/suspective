@@ -80,6 +80,14 @@ class TimeManager {
         return new Date(this.currentTime);
     }
 
+    public getCurrentDay(): string {
+        return ['일', '월', '화', '수', '목', '금', '토'][this.currentTime.getDay()];
+    }
+
+    public getCurrentDayIndex(): number {
+        return this.currentTime.getDay();
+    }
+
     // 시간 업데이트 콜백 등록
     public onTimeUpdate(callback: (time: Date) => void): () => void {
         this.timeUpdateCallbacks.push(callback);
