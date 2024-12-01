@@ -56,7 +56,7 @@ export const DOCK_APPS: AppDefinition[] = [
         icon: '/images/macbook/program/mail.png',
         config: {
             title: 'Mail',
-            size: { width: 220, height: 340 },
+            size: { width: 1024, height: 560 },
             isResizable: false,
             defaultArgs: {
                 mailbox: 'inbox'
