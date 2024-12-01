@@ -46,7 +46,7 @@ export const DOCK_APPS: AppDefinition[] = [
         icon: '/images/macbook/program/kakaotalk.png',
         config: {
             title: '카카오톡',
-            size: { width: 220, height: 340 },
+            size: { width: 260, height: 340 },
             isResizable: true,
         }
     },
