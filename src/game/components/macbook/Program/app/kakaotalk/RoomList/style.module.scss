@@ -1,0 +1,150 @@
+
+.container {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+}
+
+.main {
+    width: calc(100% - 50px);
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    background-color: var(--white);
+}
+
+.header {
+    width: 100%;
+    padding: 12px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    border-bottom: 1px solid var(--gray-100);
+
+    .title {
+        font-size: 13px;
+        font-weight: 600;
+
+        margin: 0;
+    }
+
+    .headerActions {
+        display: flex;
+
+        gap: 12px;
+    }
+}
+
+.roomList {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.room {
+    padding: 8px;
+    display: flex;
+    gap: 8px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #EAEAEA;
+    }
+}
+
+.profileImage {
+    width: 30px;
+    height: 30px;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    img {
+        width: 100%;
+        height: 100%;
+
+        object-fit: cover;
+    }
+
+    .defaultProfile {
+        width: 100%;
+        height: 100%;
+
+        background-color: #bbb;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 14px;
+
+        color: var(--white);
+    }
+}
+
+.info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    gap: 2px;
+}
+
+.nameRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .name {
+        font-size: 10px;
+        font-weight: 500;
+        color: var(--black);
+    }
+
+    .time {
+        font-size: 9px;
+        color: #989898;
+    }
+}
+
+.messageRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .lastMessage {
+        font-size: 9px;
+        font-weight: 500;
+
+        color: #7c7c7c;
+
+        margin: 0;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        max-width: 80%;
+    }
+
+    .unreadCount {
+        background-color: #F4551D;
+        color: white;
+
+        font-size: 8px;
+
+        padding: 2px 5px;
+
+        border-radius: 10px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}

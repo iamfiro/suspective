@@ -1,0 +1,15 @@
+.container {
+    width: 50px;
+    height: 100%;
+
+    background-color: #EDEDED;
+
+    border-right: 1px solid #D8D8D8;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+
+    padding-top: 40px;
+}

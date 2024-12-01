@@ -1,0 +1,106 @@
+.container {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    background-color: #BACEE0;
+}
+
+.header {
+    width: 100%;
+    height: 100px;
+
+    display: flex;
+    align-items: flex-end;
+
+    padding: 0 0 10px 10px;
+
+
+    .roomProfile {
+        width: 32px;
+        height: 32px;
+
+        border-radius: 10px;
+    }
+
+    .roomData {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+
+        margin-left: 10px;
+
+        .roomName {
+            font-size: 12px;
+        }
+
+        .participants {
+            display: flex;
+            align-items: center;
+
+            svg {
+                width: 11px;
+                height: 11px;
+
+                margin-right: 2px;
+
+                color: #5D6670;
+            }
+
+            span {
+                font-size: 10px;
+
+                color: #474d55;
+            }
+        }
+    }
+}
+
+.chat {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow-y: auto;
+}
+
+.input {
+    width: 100%;
+    height: 100px;
+
+    background-color: var(--white);
+
+    padding: 6px 8px;
+
+    span {
+        font-size: 10px;
+
+        color: #8f8f8f;
+    }
+
+    button {
+        width: 100%;
+        height: 25px;
+
+        margin-top: 5px;
+
+        color: #6c6c6c;
+        background-color: #eaeaea;
+
+        border: 0;
+        border-radius: 5px;
+
+        font-size: 11px;
+
+        cursor: pointer;
+
+        &:active {
+            background-color: #dcdcdc;
+        }
+    }
+}
+
