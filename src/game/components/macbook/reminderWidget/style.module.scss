@@ -1,0 +1,86 @@
+.reminderWidget {
+    width: 250px;
+
+    background: var(--white);
+
+    backdrop-filter: blur(10px);
+
+    border-radius: 12px;
+
+    padding: 14px;
+
+    position: absolute;
+    top: 40px;
+    left: 10px;
+}
+
+.header {
+    width: fit-content;
+
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 12px;
+
+    h3 {
+        font-size: 10px;
+        font-weight: 500;
+
+        margin: 0;
+    }
+
+    .time {
+        font-size: 26px;
+        font-weight: lighter;
+    }
+}
+
+.reminderList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.reminderItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 4px;
+
+    background: var(--pink-background);
+    border-radius: 999px;
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .icon {
+        width: 20px;
+        height: 20px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: var(--pink);
+        border-radius: 999px;
+
+        svg {
+            width: 10px;
+            height: 10px;
+
+            fill: var(--white);
+        }
+    }
+
+    .date {
+        font-size: 12px;
+        opacity: 0.7;
+        min-width: 60px;
+    }
+
+    .title {
+        font-size: 13px;
+        font-weight: 500;
+    }
+}

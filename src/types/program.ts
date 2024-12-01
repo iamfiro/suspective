@@ -4,6 +4,17 @@ export enum DesktopItemType {
     image = 'image'
 }
 
+export interface BackgroundProgram {
+    type: DesktopItemType;
+    name: string;
+    icon?: string;
+}
+
+export interface ReminderData {
+    date: string;
+    title: string;
+}
+
 export interface Program {
     id: string;
     name: string;

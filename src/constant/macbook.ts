@@ -1,13 +1,7 @@
-import {DesktopItemType} from "../types/program.ts";
+import {BackgroundProgram, DesktopItemType, ReminderData} from "../types/program.ts";
 
 export const MACBOOK_SETTINGS = {
     password: '0429',
-}
-
-interface BackgroundProgram {
-    type: DesktopItemType;
-    name: string;
-    icon?: string;
 }
 
 export const MACBOOK_BACKGROUND_PROGRAMS: BackgroundProgram[] = [
@@ -26,4 +20,11 @@ export const MACBOOK_BACKGROUND_PROGRAMS: BackgroundProgram[] = [
         name: '중요한거',
         icon: '/images/macbook/dummy/cat.jpg'
     }
+]
+
+export const REMINDER_DATA: ReminderData[] = [
+    {
+        date: '2024-04-29',
+        title: '내 생일 🍰😁😂🎉',
+    },
 ]
