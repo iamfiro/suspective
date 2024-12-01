@@ -41,17 +41,17 @@ export const DOCK_APPS: AppDefinition[] = [
         }
     },
     {
-        id: 'messages',
-        name: 'Messages',
-        icon: '/images/macbook/program/messages.png',
+        id: 'kakaotalk',
+        name: '카카오톡',
+        icon: '/images/macbook/program/kakaotalk.png',
         config: {
-            title: 'Messages',
-            size: { width: 400, height: 600 },
+            title: '카카오톡',
+            size: { width: 220, height: 340 },
             isResizable: true,
         }
     },
     {
-        id: 'kakaotalk',
+        id: 'mail',
         name: 'Mail',
         icon: '/images/macbook/program/mail.png',
         config: {
