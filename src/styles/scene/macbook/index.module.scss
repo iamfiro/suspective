@@ -1,0 +1,13 @@
+.container {
+    width: 100%;
+    height: 100vh;
+
+    background-image: url("public/images/macbook/wallpaper.png");
+    background-size: cover;
+    background-position: center;
+}
+
+.content {
+    width: 100%;
+    height: calc(100% - 40px);
+}
