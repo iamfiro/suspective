@@ -1,0 +1,180 @@
+.container {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+}
+
+.aside {
+    width: 130px;
+    height: 100%;
+
+    background-color: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(40px);
+
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    padding: 30px 8px 0 8px;
+
+    border-right: 1px solid #dcdcdc;
+
+    .category {
+        font-size: 9px;
+
+        color: #686868;
+    }
+
+    .categoryButton {
+        width: 100%;
+
+        border-radius: 4px;
+
+        background-color: rgba(0, 0, 0, 0.1);
+
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        padding: 5px 5px;
+
+        svg {
+            width: 12px;
+            height: 12px;
+        }
+
+        span {
+            font-size: 11px;
+        }
+    }
+}
+
+.mailList {
+    width: 280px;
+    height: 100%;
+
+    background-color: var(--white);
+
+    border-right: 1px solid #dcdcdc;
+
+    .header {
+        padding: 5px 10px 0 10px;
+        .title {
+            font-size: 11px;
+            font-weight: 600;
+        }
+    }
+}
+
+.mailListContainer {
+    padding: 5px 10px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.mailItem {
+    width: 100%;
+
+    padding: 6px 8px 6px 20px;
+
+    border-radius: 4px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    &:hover {
+        background-color: #e3e3e3;
+    }
+
+    .sender {
+        font-size: 11px;
+        font-weight: 600;
+    }
+
+    .title {
+        font-size: 10px;
+    }
+
+    .content {
+        font-size: 10px;
+
+        color: #868686;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+.mailContent {
+    width: calc(100% - 280px - 120px);
+    height: 100%;
+
+    background-color: var(--white);
+
+    .contentHeader {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        padding: 15px 20px;
+
+        border-bottom: 1px solid #dcdcdc;
+
+        .senderData {
+            display: flex;
+        }
+
+        .profileBackground {
+            background: linear-gradient(#b8c0cc, #8a909a);
+
+            border-radius: 9999px;
+
+            width: 30px;
+            height: 30px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            span {
+                color: var(--white);
+                font-size: 12px;
+                font-weight: 600;
+            }
+        }
+
+        .mailData {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+
+            margin-left: 7px;
+
+            span:nth-child(1) {
+                font-size: 12px;
+            }
+
+            span:nth-child(2) {
+                font-size: 10px;
+
+                color: #686868;
+            }
+        }
+    }
+
+    .time {
+        font-size: 10px;
+        color: #868686;
+    }
+}
+
+.htmlContent {
+    width: 100%;
+    height: 100%;
+
+    background-color: red;
+}
