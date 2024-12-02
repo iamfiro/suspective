@@ -1,29 +1,65 @@
+import { useEffect, useState } from 'react';
 import style from './style.module.scss';
-import MessageIcon from '../../../../../public/images/macbook/program/mail.png';
-import {useEffect, useState} from "react";
+import {NotificationData} from "../../../../types/notification.ts";
 import {createGlitchText} from "../../../../lib/createGlitchText.ts";
 
-export const Notification = () => {
-	const [mails, setMails] = useState('');
+export const Notification = ({
+    icon,
+    appName,
+    title,
+    content,
+    style: customStyle,
+    onClick,
+    glitch,
+}: NotificationData) => {
+    const [glitchedText, setGlitchedText] = useState('');
 
-	useEffect(() => {
-		const glitchElement = createGlitchText({
-			text: '71yuchan@sex.com',
-			onUpdate: setMails,
-			interval: 100,
-		});
+    useEffect(() => {
+        if (glitch) {
+            const glitchElement = createGlitchText({
+                text: glitch.text,
+                onUpdate: setGlitchedText,
+                interval: glitch.interval,
+            });
 
-		return () => glitchElement.stop();
-	}, [mails]);
+            return () => glitchElement.stop();
+        }
+    }, [glitch]);
 
-	return (
-		<article className={style.container}>
-			<img src={MessageIcon} alt="message" className={style.icon}/>
-			<div className={style.data}>
-				<span className={style.appName}>Mail</span>
-				<span className={style.title}>{mails}</span>
-				<span className={style.content}>날 찾을 수 있을 것 같아?</span>
-			</div>
-		</article>
-	)
-}
+    return (
+        <article
+            className={style.container}
+            style={customStyle?.container}
+            onClick={onClick}
+        >
+            {icon && (
+                <img
+                    src={icon}
+                    alt={appName}
+                    className={style.icon}
+                    style={customStyle?.icon}
+                />
+            )}
+            <div className={style.data}>
+                <span
+                    className={style.appName}
+                    style={customStyle?.appName}
+                >
+                    {appName}
+                </span>
+                <span
+                    className={style.title}
+                    style={customStyle?.title}
+                >
+                    {glitch?.target === 'title' ? glitchedText : title}
+                </span>
+                <span
+                    className={style.content}
+                    style={customStyle?.content}
+                >
+                    {glitch?.target === 'content' ? glitchedText : content}
+                </span>
+            </div>
+        </article>
+    );
+};

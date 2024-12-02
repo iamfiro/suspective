@@ -8,63 +8,79 @@ import {useMacPrograms} from "../../../states/useMacPrograms.ts";
 import {Kakaotalk} from "../../components/macbook/Program/app/kakaotalk";
 import {Mail} from "../../components/macbook/Program/app/mail";
 import {useEffect} from "react";
-import {Notification} from "../../components/macbook/notification";
+import {NotificationContainer} from "../../components/macbook/notification/container";
+import {useNotificationStore} from "../../../states/useNotification.ts";
+import MessageIcon from '../../../../public/images/macbook/program/mail.png'
 
 interface ProgramComponentProps {
-    id: string;
-    args?: Record<string, string | boolean | number>;
+	id: string;
+	args?: Record<string, string | boolean | number>;
 }
 
 // 프로그램 컴포넌트 매핑
 const PROGRAM_COMPONENTS: Record<string, React.ComponentType<ProgramComponentProps>> = {
-    'kakaotalk': Kakaotalk,
-    'mail': Mail,
+	'kakaotalk': Kakaotalk,
+	'mail': Mail,
 };
 
 export const Macbook = () => {
-    const {setSelectedName} = useBackgroundSelectedIcon();
-    const {programs} = useMacPrograms();
+	const {setSelectedName} = useBackgroundSelectedIcon();
+	const {programs} = useMacPrograms();
 
-    useEffect(() => {
-        console.log(programs)
-    }, [programs]);
+	useEffect(() => {
+		setInterval(() => {
+			useNotificationStore.getState().addNotification({
+				appName: 'Mail',
+				icon: MessageIcon,
+				title: '새로운 메일',
+				content: '날 찾을 수 있을 것 같아?',
+				duration: 3000,
+				onClick: () => console.log('notification clicked'),
+				glitch: {
+					text: '71yuchan@sex.com',
+					interval: 100,
+					target: 'title'
+				}
+			});
+		}, 1000);
+	}, []);
 
-    const handleClickBackground = () => {
-        setSelectedName('');
-    }
+	const handleClickBackground = () => {
+		setSelectedName('');
+	}
 
-    const renderProgram = (program: ProgramComponentProps) => {
-        const ProgramComponent = PROGRAM_COMPONENTS[program.id];
+	const renderProgram = (program: ProgramComponentProps) => {
+		const ProgramComponent = PROGRAM_COMPONENTS[program.id];
 
-        if (!ProgramComponent) {
-            console.warn(`No component found for program: ${program.id}`);
-            return null;
-        }
+		if (!ProgramComponent) {
+			console.warn(`No component found for program: ${program.id}`);
+			return null;
+		}
 
-        return (
-            <ProgramComponent
-                key={program.id}
-                id={program.id}
-                {...program.args} // 프로그램별 인자 전달
-            />
-        );
-    };
+		return (
+			<ProgramComponent
+				key={program.id}
+				id={program.id}
+				{...program.args} // 프로그램별 인자 전달
+			/>
+		);
+	};
 
-    return (
-        <main className={style.container}>
-            <MenuBar />
-            <section
-                className={style.content}
-                onClick={handleClickBackground}
-            >
-                <DesktopProgramList />
-            </section>
-            <ReminderWidget />
-            <Dock />
-            <Notification />
-            {programs.map(renderProgram)}
-        </main>
-    )
+	return (
+		<main className={style.container}>
+			<MenuBar/>
+			<section
+				className={style.content}
+				onClick={handleClickBackground}
+			>
+				<DesktopProgramList/>
+			</section>
+			<ReminderWidget/>
+			<Dock/>
+			<NotificationContainer/>
+			{programs.map(renderProgram)}
+		</main>
+	)
 }
 
 export default Macbook;
