@@ -1,4 +1,4 @@
-import style from '../../../styles/scene/macbook/index.module.scss'
+import style from '../../../styles/scene/macbook/index.module.scss';
 import useBackgroundSelectedIcon from "../../../states/backgroundSelectedIcon.ts";
 import {MenuBar} from "../../components/macbook/menuBar";
 import {DesktopProgramList} from "../../components/macbook/desktopProgramList";
@@ -9,8 +9,7 @@ import {Kakaotalk} from "../../components/macbook/Program/app/kakaotalk";
 import {Mail} from "../../components/macbook/Program/app/mail";
 import {useEffect} from "react";
 import {NotificationContainer} from "../../components/macbook/notification/container";
-import {useNotificationStore} from "../../../states/useNotification.ts";
-import MessageIcon from '../../../../public/images/macbook/program/mail.png'
+import {useMailStore} from "../../../states/mail.ts";
 
 interface ProgramComponentProps {
 	id: string;
@@ -28,21 +27,30 @@ export const Macbook = () => {
 	const {programs} = useMacPrograms();
 
 	useEffect(() => {
-		setInterval(() => {
-			useNotificationStore.getState().addNotification({
-				appName: 'Mail',
-				icon: MessageIcon,
-				title: '새로운 메일',
-				content: '날 찾을 수 있을 것 같아?',
-				duration: 3000,
-				onClick: () => console.log('notification clicked'),
-				glitch: {
-					text: '71yuchan@sex.com',
-					interval: 100,
-					target: 'title'
-				}
-			});
-		}, 1000);
+		// setInterval(() => {
+		// 	useNotificationStore.getState().addNotification({
+		// 		appName: 'Mail',
+		// 		icon: MessageIcon,
+		// 		title: '새로운 메일',
+		// 		content: '날 찾을 수 있을 것 같아?',
+		// 		duration: 3000,
+		// 		onClick: () => console.log('notification clicked'),
+		// 		glitch: {
+		// 			text: '71yuchan@sex.com',
+		// 			interval: 100,
+		// 			target: 'title'
+		// 		}
+		// 	});
+		// }, 1000);
+
+		useMailStore.getState().addMail({
+			id: Math.random().toString(),
+			sender: '71yuchan@sex',
+			title: '새로운 메일',
+			content: '날 찾을 수 있을 것 같아?',
+			timestamp: '2021-08-01 12:00:00',
+			component: <div>내용</div>
+		});
 	}, []);
 
 	const handleClickBackground = () => {

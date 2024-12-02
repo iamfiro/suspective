@@ -1,18 +1,88 @@
+import {useEffect, useState} from 'react';
 import style from './style.module.scss';
 import MacProgram from "../../index.tsx";
-import {LuInbox} from "react-icons/lu";
+import {LuInbox, LuSearch} from "react-icons/lu";
+import {useMailStore} from "../../../../../../states/mail.ts";
+import {Mail as MailType} from "../../../../../../types/mail.ts"; // Mail 타입을 import
 
-const MailItem = () => {
-	return (
-		<article className={style.mailItem}>
-			<span className={style.sender}>GeekNews Daily</span>
-			<span className={style.title}>[GN#282] 제품 속도에 대한 원칙</span>
-			<span className={style.content}>스타트업 초기에는 빠르게 제품을 만들지만 점차 느려지게 됩니다. 기술 부채부터 복잡해진 요구사항, 기존 작업과 연동되면서 고려할 것들이 많아지니 당연히 더 오래 걸리는 게 맞는데요. 복잡한 프로세스가 발목을 붙잡거나, 어디서 들어오는지 모르는 이상하고</span>
-		</article>
-	)
+interface MailItemProps {
+	id: string;
+	sender: string;
+	title: string;
+	content: string;
+	isSelected: boolean;
+	onClick: () => void;
 }
 
+interface MailContentProps {
+	mail: MailType | undefined;
+}
+
+const MailItem = ({sender, title, content, isSelected, onClick}: MailItemProps) => {
+	return (
+		<article
+			className={`${style.mailItem} ${isSelected ? style.selected : ''}`}
+			onClick={onClick}
+		>
+			<span className={style.sender}>{sender}</span>
+			<span className={style.title}>{title}</span>
+			<span className={style.content}>{content}</span>
+		</article>
+	);
+};
+
+const MailContent = ({mail}: MailContentProps) => {
+	if (!mail) return <div className={style.noMailSelected}>선택된 메일이 없습니다</div>;
+
+	return (
+		<>
+			<header className={style.contentHeader}>
+				<div className={style.senderData}>
+					<div className={style.profileBackground}>
+						<span>{mail.sender.substring(0, 2).toUpperCase()}</span>
+					</div>
+					<div className={style.mailData}>
+						<span>{mail.sender}</span>
+						<span>{mail.title}</span>
+					</div>
+				</div>
+				<span className={style.time}>
+                    {new Date(mail.timestamp).toLocaleTimeString([], {
+	                    hour: '2-digit',
+	                    minute: '2-digit'
+                    })}
+                </span>
+			</header>
+			<article className={style.htmlContent}>
+				{mail.component || mail.content}
+			</article>
+		</>
+	);
+};
+
 export const Mail = ({id}: { id: string }) => {
+	const {
+		mails,
+		selectedMailId,
+		searchQuery,
+		setSelectedMail,
+		setSearchQuery,
+		getFilteredMails,
+		getSelectedMail
+	} = useMailStore();
+
+	const [searchInput, setSearchInput] = useState(searchQuery);
+	const filteredMails = getFilteredMails();
+	const selectedMail = getSelectedMail();
+
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			setSearchQuery(searchInput);
+		}, 300);
+
+		return () => clearTimeout(timer);
+	}, [searchInput]);
+
 	return (
 		<MacProgram
 			id={id}
@@ -25,34 +95,43 @@ export const Mail = ({id}: { id: string }) => {
 					<div className={style.categoryButton}>
 						<LuInbox color={'#1c73e8'}/>
 						<span>받은 편지함</span>
+						<span>{mails.length}</span>
 					</div>
 				</aside>
 				<section className={style.mailList}>
 					<header className={style.header}>
 						<span className={style.title}>받은 편지함</span>
+						<div className={style.searchContainer}>
+							<LuSearch className={style.searchIcon}/>
+							<input
+								type="text"
+								placeholder="메일 검색"
+								value={searchInput}
+								onChange={(e) => setSearchInput(e.target.value)}
+								className={style.searchInput}
+							/>
+						</div>
 					</header>
 					<div className={style.mailListContainer}>
-						<MailItem/>
+						{filteredMails.map((mail) => (
+							<MailItem
+								key={mail.id}
+								id={mail.id}
+								sender={mail.sender}
+								title={mail.title}
+								content={mail.content}
+								isSelected={mail.id === selectedMailId}
+								onClick={() => setSelectedMail(mail.id)}
+							/>
+						))}
 					</div>
 				</section>
 				<section className={style.mailContent}>
-					<header className={style.contentHeader}>
-						<div className={style.senderData}>
-							<div className={style.profileBackground}>
-								<span>GW</span>
-							</div>
-							<div className={style.mailData}>
-								<span>GeekNews Daily</span>
-								<span>[GN#282] 제품 속도에 대한 원칙</span>
-							</div>
-						</div>
-						<span className={style.time}>10:18 AM</span>
-					</header>
-					<article className={style.htmlContent}>
-
-					</article>
+					<MailContent mail={selectedMail}/>
 				</section>
 			</div>
 		</MacProgram>
-	)
-}
+	);
+};
+
+export default Mail;
