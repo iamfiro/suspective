@@ -4,6 +4,7 @@ import {NotificationData} from "../../../../types/notification.ts";
 import {createGlitchText} from "../../../../lib/createGlitchText.ts";
 
 export const Notification = ({
+    id,
     icon,
     appName,
     title,
@@ -30,7 +31,7 @@ export const Notification = ({
         <article
             className={style.container}
             style={customStyle?.container}
-            onClick={onClick}
+            onClick={() => onClick?.(id)}
         >
             {icon && (
                 <img
