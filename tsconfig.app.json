@@ -23,7 +23,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": ["src", "declaration.d.ts"],
   "paths": {
     "@style/*": ["src/styles/*"],
     "@scene/*": ["src/game/scene/*"],
