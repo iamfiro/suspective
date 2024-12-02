@@ -7,9 +7,7 @@ import Dock from "../../components/macbook/dock";
 import {useMacPrograms} from "../../../states/useMacPrograms.ts";
 import {Kakaotalk} from "../../components/macbook/Program/app/kakaotalk";
 import {Mail} from "../../components/macbook/Program/app/mail";
-import {useEffect} from "react";
 import {NotificationContainer} from "../../components/macbook/notification/container";
-import {useMailStore} from "../../../states/mail.ts";
 
 interface ProgramComponentProps {
 	id: string;

@@ -43,7 +43,7 @@ export const ReminderWidget = () => {
 				title: '새로운 메일',
 				content: '날 찾을 수 있을 것 같아?',
 				timestamp: '2021-08-01 12:00:00',
-				component: <div>내용</div>
+				component: <div>내용</div>,
 			});
 		}}>
 			<div className={style.header}>
