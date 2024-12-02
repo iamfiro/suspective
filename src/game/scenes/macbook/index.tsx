@@ -8,6 +8,7 @@ import {useMacPrograms} from "../../../states/useMacPrograms.ts";
 import {Kakaotalk} from "../../components/macbook/Program/app/kakaotalk";
 import {Mail} from "../../components/macbook/Program/app/mail";
 import {useEffect} from "react";
+import {Notification} from "../../components/macbook/notification";
 
 interface ProgramComponentProps {
     id: string;
@@ -60,6 +61,7 @@ export const Macbook = () => {
             </section>
             <ReminderWidget />
             <Dock />
+            <Notification />
             {programs.map(renderProgram)}
         </main>
     )
