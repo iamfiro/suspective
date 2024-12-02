@@ -6,6 +6,7 @@ import {ReminderWidget} from "../../components/macbook/reminderWidget";
 import Dock from "../../components/macbook/dock";
 import {useMacPrograms} from "../../../states/useMacPrograms.ts";
 import {Kakaotalk} from "../../components/macbook/Program/app/kakaotalk";
+import {Mail} from "../../components/macbook/Program/app/mail";
 import {useEffect} from "react";
 
 interface ProgramComponentProps {
@@ -16,14 +17,15 @@ interface ProgramComponentProps {
 // 프로그램 컴포넌트 매핑
 const PROGRAM_COMPONENTS: Record<string, React.ComponentType<ProgramComponentProps>> = {
     'kakaotalk': Kakaotalk,
+    'mail': Mail,
 };
 
 export const Macbook = () => {
     const {setSelectedName} = useBackgroundSelectedIcon();
-    const {programs, activeId, maxZIndex} = useMacPrograms();
+    const {programs} = useMacPrograms();
 
     useEffect(() => {
-        console.log(programs, activeId, maxZIndex)
+        console.log(programs)
     }, [programs]);
 
     const handleClickBackground = () => {
