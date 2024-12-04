@@ -1,0 +1,44 @@
+.accessorDataFooter {
+    width: calc(100% - 20px);
+    height: 60px;
+    background-color: #1a90ff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    margin: 10px;
+    overflow: hidden;
+    position: relative;
+
+    .warningTape {
+        width: 100%;
+        height: 12px;
+        background-image: repeating-linear-gradient(
+                        45deg,
+                        rgba(0, 0, 0, 0.4) 0,
+                        rgba(0, 0, 0, 0.4) 10px,
+                        #1a90ff 10px,
+                        #1a90ff 20px
+        );
+
+        &.bottom {
+            position: absolute;
+            bottom: 0;
+        }
+    }
+
+    .textContainer {
+        display: flex;
+        position: relative;
+        height: 36px;
+        align-items: center;
+
+        span {
+            font-size: 32px;
+            font-weight: 600;
+            white-space: nowrap;
+            padding: 0 20px;
+            will-change: transform;
+        }
+    }
+}
