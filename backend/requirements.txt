@@ -1,0 +1,13 @@
+fastapi[all]
+fastapi-restful[all]
+motor
+beanie
+python-dotenv
+uvicorn
+pydantic
+redis
+passlib
+PyJWT
+aiogoogle
+openai
+aiohttp
