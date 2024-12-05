@@ -74,7 +74,7 @@ export function SceneRenderer({initialScene}: {initialScene: string}) {
     const [currentScenePath, setCurrentScenePath] = useState(initialScene);
 
     useEffect(() => {
-        if (!sceneNavigator) {
+        if(!sceneNavigator) {
             throw new Error('SceneManager not initialized. Call createSceneManager first.');
         }
 

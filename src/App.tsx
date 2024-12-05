@@ -13,6 +13,7 @@ import BootProgram from "./game/scenes/intranet/bootProgram.tsx";
 import IntranetLogin from "./game/scenes/intranet/login.tsx";
 import DifficultySelect from "./game/scenes/intranet/DifficultySelect.tsx";
 import MissionList from "./game/scenes/intranet/missionList.tsx";
+import {SceneInGame} from "./game/scenes/game/ingame.tsx";
 
 function App() {
     const [isInitialized, setIsInitialized] = useState(false);
@@ -87,6 +88,10 @@ function App() {
             {
                 path: '/macbook/desktop',
                 component: () => <Macbook />
+            },
+            {
+                path: '/game',
+                component: () => <SceneInGame />
             }
         ]);
         setIsInitialized(true);
@@ -98,7 +103,7 @@ function App() {
 
     return (
         <>
-            <SceneRenderer initialScene={'/intro'} />
+            <SceneRenderer initialScene={'/game'} />
         </>
     )
 }
