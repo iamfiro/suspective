@@ -8,7 +8,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 
-from router import create_story
+from router import movement
 from utils.log import Logger
 
 logger = Logger.create(__name__, level=logging.DEBUG)
